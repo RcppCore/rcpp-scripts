@@ -1,14 +1,24 @@
 #!/bin/sh
 
+cwd=$(pwd)
+
+version=$(r -e'cat(as.character(read.dcf("pkg/DESCRIPTION")[,"Version"]))')
+echo "Working on version $version"
+
+
 if [ -x /usr/bin/doxygen ]; then 
     cd pkg/inst/doc
     rm -rf html/ latex/ man/
-    cd -
+    cd ${cwd}
     cd pkg
     cd src && ln -s ../inst/examples . && cd -
-    doxygen
+
+    ## see FAQ 17 for doxygen
+    ( cat doxyfile ; echo PROJECT_NAME="\"Rcpp Version ${version}\"" ) | doxygen -
+
     rm src/examples
-    cd -
+    cd ${cwd}
+    pwd
 
     cd pkg/inst/doc
     zip -9r rcpp-doc-html.zip html/
@@ -18,5 +28,5 @@ if [ -x /usr/bin/doxygen ]; then
 	mv -v rcpp-doc-*.zip ~/www/code/rcpp/
 	rsync --delete -avu html ~/www/code/rcpp/
     fi
-    cd -
+    cd ${cwd}
 fi
