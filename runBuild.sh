@@ -8,4 +8,5 @@ R CMD build --force pkg
 
 test -d tarballs   && cp -vax Rcpp_${version}.tar.gz tarballs/rcpp_${version}.orig.tar.gz
 test -d build-area && cp -vax Rcpp_${version}.tar.gz build-area/rcpp_${version}.orig.tar.gz
+test -d ~/www/code/rcpp && cp -vax Rcpp_${version}.tar.gz ~/www/code/rcpp
 
