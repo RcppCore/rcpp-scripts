@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e 
+
 function runConvolveBennchmark {
 	cd Rcpp/inst/examples/ConvolveBenchmarks
 	./buildAndRun.sh
@@ -34,13 +36,12 @@ function runRcppInline {
 function runRInsideExamples {
 	cd ../../rinside/pkg/inst/examples/standard
 	make 
-	make runAll
 	cd -
 }
 
-#runConvolveBennchmark
-#runFastLM
-#runFunctionCallback
-#runRcppInline
+runConvolveBennchmark
+runFastLM
+runFunctionCallback
+runRcppInline
 
 runRInsideExamples
