@@ -1,8 +1,13 @@
 #!/bin/sh
 
+if [ ! -d Rcpp ]; then
+    echo "Not above Rcpp/"
+    exit -1
+fi
+
 cwd=$(pwd)
 
-version=$(r -e'cat(as.character(read.dcf("pkg/DESCRIPTION")[,"Version"]))')
+version=$(r -e'cat(as.character(read.dcf("Rcpp/DESCRIPTION")[,"Version"]))')
 echo "Working on version $version"
 
 
