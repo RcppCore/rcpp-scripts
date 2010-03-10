@@ -36,4 +36,18 @@ if [ -x /usr/bin/doxygen ]; then
 	rsync --delete -avu html ~/www/code/rcpp/
     fi
     cd ${cwd}
+
+    cd Rcpp/inst/doc/latex
+    pdflatex refman
+    pdflatex refman
+    if [ -d ~/www/code/rcpp/ ]; then
+	cp -vax refman.pdf ~/www/code/rcpp/Rcpp_refman.pdf
+    fi
+    cd ${cwd}
+
+    if [ -d ~/www/code/rcpp/ ]; then
+	cp -vax Rcpp/inst/doc/Rcpp-*.pdf ~/www/code/rcpp
+    fi
+    cd ${cwd}
+
 fi
