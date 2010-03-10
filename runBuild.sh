@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e 
+
 if [ ! -d Rcpp ]; then
     echo "Not above Rcpp/"
     exit -1

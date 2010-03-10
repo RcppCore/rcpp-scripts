@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e 
+
 if [ ! -d Rcpp ]; then
     echo "Not above Rcpp/"
     exit -1
@@ -12,10 +14,10 @@ echo "Working on version $version"
 
 
 if [ -x /usr/bin/doxygen ]; then 
-    cd pkg/inst/doc
+    cd Rcpp/inst/doc
     rm -rf html/ latex/ man/
     cd ${cwd}
-    cd pkg
+    cd Rcpp
     cd src && ln -s ../inst/examples . && cd -
 
     ## see FAQ 17 for doxygen
