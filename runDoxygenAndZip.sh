@@ -27,7 +27,7 @@ if [ -x /usr/bin/doxygen ]; then
     cd ${cwd}
     pwd
 
-    cd pkg/inst/doc
+    cd Rcpp/inst/doc
     zip -9r rcpp-doc-html.zip html/
     zip -9r rcpp-doc-man.zip man
     zip -9r rcpp-doc-latex.zip latex
