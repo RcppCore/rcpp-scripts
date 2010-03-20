@@ -32,15 +32,31 @@ grow <- function( n = 1, txt ){
 
 for_each <- function(n = 1, txt ){
 	
+	rx <- "^.*__FOR_EACH__[{][{](.*)[}][}].*$"
+	while( any( grepl( rx, txt ) ) ){
+		line <- grep( rx, txt )[1]
+		
+		expr <- sub( rx , "\\1", txt[line] )
+		res <- sapply( 1:n, function(index){
+			out <- gsub( "___I___", index - 1, expr )
+			out <- gsub( "___X___", sprintf( "t%d", index ), out )
+			out
+		} )
+		txt <- c( txt[ 1:(line-1) ], res, txt[ (line+1) : length(txt) ] )
+	}
+	txt
+}
+
+or <- function( n = 1, txt ){
 	rx <- "^.*[{][{](.*)[}][}].*$"
 	line <- grep( rx, txt )
 	expr <- sub( rx , "\\1", txt[line] )
 	res <- sapply( 1:n, function(index){
-		out <- gsub( "___I___", index - 1, expr )
-		out <- gsub( "___X___", sprintf( "t%d", index ), out )
+		out <- gsub( "___T___", sprintf("T%d", index), expr )
 		out
 	} )
-	c( txt[ 1:(line-1) ], res, txt[ (line+1) : length(txt) ] )
+	txt[line] <- paste( res, collapse = "||" )
+	txt
 }
 
 modify <- function(txt, token, n, fun){
@@ -53,7 +69,7 @@ modify <- function(txt, token, n, fun){
 
 path <- file.path( "src", "Rcpp" )
 for( f in list.files(path, full.names = TRUE) ){
-#	f <- "src/Rcpp/make_list.h"
+#	f <- "src/Rcpp/Vector.h"
 	content <- readLines( f )
 	if( any( grepl( "code-bloat", content ) ) ){
 		first <- grep( "<code-bloat>", content )
@@ -70,6 +86,9 @@ for( f in list.files(path, full.names = TRUE) ){
 			txt <- modify( txt, "___N___"   , n, function(n,txt){ as.character(n) }  )
 			if( any( grepl( "__FOR_EACH__[{][{].*[}][}]", txt ) ) ){
 				txt <- for_each( n, txt )	
+			}
+			if( any( grepl( "__OR__[{][{].*[}][}]", txt ) ) ){
+				txt <- or( n, txt )	
 			}
 			txt
 		} )
