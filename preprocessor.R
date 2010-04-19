@@ -11,18 +11,18 @@ SEXP RCPP_DECORATE(__NAME__)(%s) ;     \\
 extern "C" SEXP __NAME__(%s){          \\
 SEXP res = R_NilValue ;                 \\
 try{                                    \\
-	res = __NAME__(%s) ;                \\
+	res = RCPP_DECORATE(__NAME__)(%s) ; \\
 } catch( std::exception& __ex__ ){      \\
 	forward_exception_to_r( __ex__ ) ;  \\
 }                                       \\
 return res ;                            \\
 }                                       \\
-SEXP __NAME__(%s)', 
+SEXP RCPP_DECORATE(__NAME__)(%s)', 
 	i,
 	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", "),
 	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
-	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ), 
+	if( i == 0 ) "" else paste( sprintf( "x%d", 0:(i-1) ), collapse = ", " ), 
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", ")
 	)
 })
