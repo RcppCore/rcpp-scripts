@@ -22,7 +22,7 @@ SEXP RCPP_DECORATE(__NAME__)(%s)',
 	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", "),
 	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
-	if( i == 0 ) "" else paste( sprintf( "x%d", 0:(i-1) ), collapse = ", " ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ), 
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", ")
 	)
 })
