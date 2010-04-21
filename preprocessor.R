@@ -50,9 +50,95 @@ __OUT__ RCPP_DECORATE(__NAME__)(%s)',
 })
 
 
+rcpp_xp_method <- sapply( 0:65, function(i){
+	txt <- sprintf( '
+#define RCPP_XP_METHOD_%d(__NAME__,__CLASS__,__METHOD__%s) \\
+extern "C" SEXP __NAME__( SEXP xp %s ){               \\
+	SEXP res = R_NilValue ;                                 \\
+	try{                                                    \\
+		::Rcpp::XPtr<__CLASS__> ptr(xp) ;                   \\
+		res = ::Rcpp::wrap( ptr->__METHOD__( %s ) ) ;        \\
+	} catch( std::exception& __ex__ ){                      \\
+		forward_exception_to_r( __ex__ ) ;	                  \\
+	}                                                       \\
+	return res ;                                            \\
+}
+', 
+	i, 
+	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
+	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
+)
+
+})
+
+rcpp_xp_method_void <- sapply( 0:65, function(i){
+	txt <- sprintf( '
+#define RCPP_XP_METHOD_VOID_%d(__NAME__,__CLASS__,__METHOD__%s) \\
+extern "C" SEXP __NAME__( SEXP xp %s ){               \\
+	try{                                                    \\
+		::Rcpp::XPtr<__CLASS__> ptr(xp) ;                   \\
+		ptr->__METHOD__( %s ) ;        \\
+	} catch( std::exception& __ex__ ){                      \\
+		forward_exception_to_r( __ex__ ) ;	                  \\
+	}                                                       \\
+	return R_NilValue ;                                            \\
+}
+', 
+	i, 
+	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
+	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
+)
+
+})
+
+rcpp_xp_macro <- sapply( 0:65, function(i){
+	txt <- sprintf( '
+#define RCPP_XP_MACRO_%d(__NAME__,__CLASS__,__MACRO__%s) \\
+extern "C" SEXP __NAME__( SEXP xp %s ){               \\
+	SEXP res = R_NilValue ;                                 \\
+	try{                                                    \\
+		::Rcpp::XPtr<__CLASS__> ptr(xp) ;                   \\
+		res = ::Rcpp::wrap( __MACRO__( ptr %s ) ) ;         \\
+	} catch( std::exception& __ex__ ){                      \\
+		forward_exception_to_r( __ex__ ) ;	                  \\
+	}                                                       \\
+	return res ;                                            \\
+}
+', 
+	i, 
+	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
+	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
+)
+
+})
+
+rcpp_xp_macro_void <- sapply( 0:65, function(i){
+	txt <- sprintf( '
+#define RCPP_XP_MACRO_VOID_%d(__NAME__,__CLASS__,__MACRO__%s) \\
+extern "C" SEXP __NAME__( SEXP xp %s ){                       \\
+	try{                                                      \\
+		::Rcpp::XPtr<__CLASS__> ptr(xp) ;                     \\
+		__MACRO__( ptr %s ) ;                                 \\
+	} catch( std::exception& __ex__ ){                        \\
+		forward_exception_to_r( __ex__ ) ;	                    \\
+	}                                                         \\
+	return R_NilValue ;                                       \\
+}
+', 
+	i, 
+	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
+	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
+)
+
+})
+
 res <- c( 
 "// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
-//
+// :tabSize=4:indentSize=4:noTabs=true:folding=explicit:collapseFolds=1:
 // preprocessor_generated.h: Rcpp R/C++ interface class library -- pre processor help
 //
 // Copyright (C) 2010 Dirk Eddelbuettel and Romain Francois
@@ -80,9 +166,25 @@ res <- c(
 // }}}
 
 // {{{ RCPP_FUNCTION_NODECL
-", rcpp_function_nodecl, 
-"
+", rcpp_function_nodecl, "
 // }}}
+
+// {{{ RCPP_XP_METHOD
+", rcpp_xp_method, "
+// }}}
+
+// {{{ RCPP_XP_METHOD_VOID
+", rcpp_xp_method_void, "
+// }}}
+
+// {{{ RCPP_XP_MACRO
+", rcpp_xp_macro, "
+// }}}
+
+// {{{ RCPP_XP_MACRO_VOID
+", rcpp_xp_macro_void, "
+// }}}
+
 #endif
 " )
 
