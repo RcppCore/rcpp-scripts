@@ -6,8 +6,12 @@ DataFrame_generator <- function( i ){
 	
 sprintf( '
 template <%s>
-static DataFrame( %s ) throw(not_compatible){
-	return DataFrame( convert_using_rfunction( List::create( %s ), "as.data.frame" ) ) ;
+static DataFrame create( %s ) throw(not_compatible){
+	return DataFrame( 
+		internal::convert_using_rfunction( 
+			List::create( %s ), 
+			"as.data.frame" 
+		) ) ;
 }
 ', 
 paste( sprintf( "typename T%d", 1:i ), collapse = ", "), 
