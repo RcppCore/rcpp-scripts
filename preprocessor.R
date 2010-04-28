@@ -26,6 +26,27 @@ __OUT__ RCPP_DECORATE(__NAME__)(%s)',
 })
 
 
+rcpp_function_void <- sapply( 0:65, function(i){
+	txt <- sprintf( '
+#define RCPP_FUNCTION_VOID_%d(__NAME__%s)           \\
+void RCPP_DECORATE(__NAME__)(%s) ;                  \\
+extern "C" SEXP __NAME__(%s){                       \\
+BEGIN_RCPP                                          \\
+RCPP_DECORATE(__NAME__)(%s) ;                       \\
+END_RCPP                                            \\
+return R_NilValue ;                                 \\
+}                                                   \\
+void RCPP_DECORATE(__NAME__)(%s)', 
+	i,
+	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
+	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", "),
+	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ), 
+	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", ")
+	)
+})
+
+
 rcpp_function_nodecl <- sapply( 0:65, function(i){
 	txt <- sprintf( '
 #define RCPP_FUNCTION_NODECL_%d(__OUT__,__NAME__%s)     \\
@@ -46,9 +67,27 @@ __OUT__ RCPP_DECORATE(__NAME__)(%s)',
 })
 
 
+rcpp_wrapper <- sapply( 0:65, function(i){
+	txt <- sprintf( '
+#define RCPP_WRAPPER_%d(__OUT__,__NAME__)           \\
+extern "C" SEXP __OUT__(%s){                        \\
+SEXP res = R_NilValue ;                             \\
+BEGIN_RCPP                                          \\
+res = ::Rcpp::wrap( __NAME__(%s) ) ;                \\
+END_RCPP                                            \\
+return res ;                                        \\
+}
+', 
+	i,
+	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ) 
+	)
+})
+
+
 rcpp_xp_method <- sapply( 0:65, function(i){
 	txt <- sprintf( '
-#define RCPP_XP_METHOD_%d(__NAME__,__CLASS__,__METHOD__%s)   \\
+#define RCPP_XP_METHOD_%d(__NAME__,__CLASS__,__METHOD__ )   \\
 extern "C" SEXP __NAME__( SEXP xp %s ){                      \\
 SEXP res = R_NilValue ;                                      \\
 BEGIN_RCPP                                                   \\
@@ -59,16 +98,36 @@ return res ;                                                 \\
 }
 ', 
 	i, 
-	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
 	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
 )
 
 })
 
+rcpp_xp_method_cast <- sapply( 0:65, function(i){
+	txt <- sprintf( '
+#define RCPP_XP_METHOD_CAST_%d(__NAME__,__CLASS__,__METHOD__,__CAST__)   \\
+extern "C" SEXP __NAME__( SEXP xp %s ){                      \\
+SEXP res = R_NilValue ;                                      \\
+BEGIN_RCPP                                                   \\
+	::Rcpp::XPtr<__CLASS__> ptr(xp) ;                        \\
+	res = ::Rcpp::wrap( __CAST__( ptr->__METHOD__( %s ) ) ) ;\\
+END_RCPP                                                     \\
+return res ;                                                 \\
+}
+', 
+	i, 
+	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
+)
+
+})
+
+
+
 rcpp_xp_method_void <- sapply( 0:65, function(i){
 	txt <- sprintf( '
-#define RCPP_XP_METHOD_VOID_%d(__NAME__,__CLASS__,__METHOD__%s)    \\
+#define RCPP_XP_METHOD_VOID_%d(__NAME__,__CLASS__,__METHOD__)    \\
 extern "C" SEXP __NAME__( SEXP xp %s ){                            \\
 BEGIN_RCPP                                                         \\
 ::Rcpp::XPtr<__CLASS__> ptr(xp) ;                                  \\
@@ -78,12 +137,12 @@ END_RCPP                                                           \\
 }
 ', 
 	i, 
-	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
 	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
 )
 
 })
+
 
 res <- c( 
 "// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
@@ -114,6 +173,10 @@ res <- c(
 ", rcpp_function, "
 // }}}
 
+// {{{ RCPP_FUNCTION_VOID 
+", rcpp_function_void, "
+// }}}
+
 // {{{ RCPP_FUNCTION_NODECL
 ", rcpp_function_nodecl, "
 // }}}
@@ -125,6 +188,15 @@ res <- c(
 // {{{ RCPP_XP_METHOD_VOID
 ", rcpp_xp_method_void, "
 // }}}
+
+// {{{ RCPP_XP_METHOD_CAST
+", rcpp_xp_method_cast, "
+// }}}
+
+// {{{ RCPP_WRAPPER
+", rcpp_wrapper, "
+// }}}
+
 #endif
 " )
 
