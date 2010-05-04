@@ -7,6 +7,14 @@
 rcpp_function <- sapply( 0:65, function(i){
 	txt <- sprintf( '
 #define RCPP_FUNCTION_%d(__OUT__,__NAME__%s)        \\
+extern "C" SEXP __NAME__##__rcpp_info__( ){         \\
+    return Rcpp::List(                              \\
+        _["n"]   = %d ,                             \\
+        _["out"] = #__OUT__ ,                       \\
+        _["in"]  = CharacterVector::create(         \\
+        	%s                                       \\
+        	) ) ;                                    \\
+}                                                   \\
 __OUT__ RCPP_DECORATE(__NAME__)(%s) ;               \\
 extern "C" SEXP __NAME__(%s){                       \\
 SEXP res = R_NilValue ;                             \\
@@ -18,6 +26,8 @@ return res ;                                        \\
 __OUT__ RCPP_DECORATE(__NAME__)(%s)', 
 	i,
 	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
+	i, 
+	if( i == 0 ) "" else paste( sprintf( "#___%d", 0:(i-1)), collapse=", "),
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", "),
 	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ), 
