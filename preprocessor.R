@@ -8,10 +8,11 @@ rcpp_function <- sapply( 0:65, function(i){
 	txt <- sprintf( '
 #define RCPP_FUNCTION_%d(__OUT__,__NAME__%s)        \\
 extern "C" SEXP __NAME__##__rcpp_info__( ){         \\
-    return Rcpp::List(                              \\
+    using Rcpp::_ ;                                 \\
+	return Rcpp::List::create(                      \\
         _["n"]   = %d ,                             \\
         _["out"] = #__OUT__ ,                       \\
-        _["in"]  = CharacterVector::create(         \\
+        _["in"]  = Rcpp::CharacterVector::create(   \\
         	%s                                       \\
         	) ) ;                                    \\
 }                                                   \\
