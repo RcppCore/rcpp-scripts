@@ -18,12 +18,12 @@ if [ -x /usr/bin/doxygen ]; then
     rm -rf html/ latex/ man/
     cd ${cwd}
     cd Rcpp
-    cd src && ln -s ../inst/examples . && cd -
+    cd src && ln -s ../inst/examples . && ln -s ../inst/include . && cd -
 
     ## see FAQ 17 for doxygen
     ( cat doxyfile ; echo PROJECT_NAME="\"Rcpp Version ${version}\"" ) | doxygen -
 
-    rm src/examples
+    rm src/examples src/include
     cd ${cwd}
     pwd
 
