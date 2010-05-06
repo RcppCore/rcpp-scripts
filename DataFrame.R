@@ -7,11 +7,14 @@ DataFrame_generator <- function( i ){
 sprintf( '
 template <%s>
 static DataFrame create( %s ) throw(not_compatible){
-	return DataFrame( 
-		internal::convert_using_rfunction( 
-			List::create( %s ), 
-			"as.data.frame" 
-		) ) ;
+	try{
+		return DataFrame( 
+			internal::try_catch( 
+				::Rf_lcons( ::Rf_install( "data.frame"), pairlist( %s ) )
+				) ) ;
+	} catch( eval_error& __ex__){
+		throw not_compatible("error calling the data.frame function") ;
+	}
 }
 ', 
 paste( sprintf( "typename T%d", 1:i ), collapse = ", "), 
