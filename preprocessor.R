@@ -8,7 +8,7 @@ rcpp_function <- sapply( 0:65, function(i){
 	txt <- sprintf( '
 #define RCPP_FUNCTION_%d(__OUT__,__NAME__%s)        \\
 RCPP_REGISTER(__NAME__)                             \\
-extern "C" SEXP __NAME__##__rcpp_info__( ){         \\
+extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){         \\
     using Rcpp::_ ;                                 \\
 	Rcpp::List info = Rcpp::List::create(           \\
         _["n"]   = %d ,                             \\
@@ -45,7 +45,7 @@ rcpp_function_void <- sapply( 0:65, function(i){
 #define RCPP_FUNCTION_VOID_%d(__NAME__%s)           \\
 RCPP_REGISTER(__NAME__)                             \\
 void RCPP_DECORATE(__NAME__)(%s) ;                  \\
-extern "C" SEXP __NAME__##__rcpp_info__( ){         \\
+extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){         \\
     using Rcpp::_ ;                                 \\
 	Rcpp::List info = Rcpp::List::create(           \\
         _["n"]   = %d ,                             \\
@@ -117,7 +117,7 @@ rcpp_xp_method <- sapply( 0:65, function(i){
 	txt <- sprintf( '
 #define RCPP_XP_METHOD_%d(__NAME__,__CLASS__,__METHOD__ )   \\
 RCPP_REGISTER(__NAME__)                                     \\
-extern "C" SEXP __NAME__##__rcpp_info__( ){                 \\
+extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
     using Rcpp::_ ;                                         \\
 	Rcpp::List info = Rcpp::List::create(                    \\
         _["n"]      = %d ,                                  \\
@@ -148,7 +148,7 @@ rcpp_xp_method_cast <- sapply( 0:65, function(i){
 	txt <- sprintf( '
 #define RCPP_XP_METHOD_CAST_%d(__NAME__,__CLASS__,__METHOD__,__CAST__)   \\
 RCPP_REGISTER(__NAME__)                                     \\
-extern "C" SEXP __NAME__##__rcpp_info__( ){                 \\
+extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
     using Rcpp::_ ;                                         \\
 	Rcpp::List info = Rcpp::List::create(                    \\
         _["n"]      = %d ,                                  \\
@@ -182,7 +182,7 @@ rcpp_xp_method_void <- sapply( 0:65, function(i){
 	txt <- sprintf( '
 #define RCPP_XP_METHOD_VOID_%d(__NAME__,__CLASS__,__METHOD__)    \\
 RCPP_REGISTER(__NAME__)                             \\
-extern "C" SEXP __NAME__##__rcpp_info__( ){                 \\
+extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
     using Rcpp::_ ;                                         \\
 	Rcpp::List info = Rcpp::List::create(                    \\
         _["n"]      = %d ,                                  \\
