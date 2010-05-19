@@ -10,14 +10,9 @@ class CppFunction%d : public CppFunction {
 	public:
 
 		CppFunction%d(OUT (*fun)(%s) ) : CppFunction(), ptr_fun(fun){}
-		SEXP operator()(SEXP* args){
-			SEXP res = R_NilValue ;
-			try{
-				res = Rcpp::wrap( ptr_fun( %s ) ) ;
-			} catch( std::exception& __ex__ ){
-				forward_exception_to_r( __ex__ ) ;
-			}
-			return res ;
+		
+		SEXP operator()(SEXP* args) throw(std::exception){
+			return Rcpp::wrap( ptr_fun( %s ) ) ;
 		}
 		
 		inline int nargs(){ return %d; }
@@ -30,12 +25,9 @@ template <%s>
 class CppFunction%d<void,%s> : public CppFunction {
 	public:
 		CppFunction%d(void (*fun)(%s) ) : CppFunction(), ptr_fun(fun){}
-		SEXP operator()(SEXP* args){
-			try{
-				ptr_fun( %s ) ;
-			} catch( std::exception& __ex__ ){
-				forward_exception_to_r( __ex__ ) ;
-			}
+		
+		SEXP operator()(SEXP* args) throw(std::exception) {
+			ptr_fun( %s ) ;
 			return R_NilValue ;
 		}
 		
@@ -95,14 +87,8 @@ template <typename OUT>
 class CppFunction0 : public CppFunction {
 	public:
 		CppFunction0(OUT (*fun)(void) ) : CppFunction(), ptr_fun(fun){}
-		SEXP operator()(SEXP* args){
-			SEXP res = R_NilValue ;
-			try{
-				res = Rcpp::wrap( ptr_fun() ) ;
-			} catch( std::exception& __ex__ ){
-				forward_exception_to_r( __ex__ ) ;
-			}
-			return res ;
+		SEXP operator()(SEXP* args) throw(std::range_error) {
+			return Rcpp::wrap( ptr_fun() ) ;
 		}
 		
 		inline int nargs(){ return 0; }
@@ -117,7 +103,7 @@ class CppFunction0<void> : public CppFunction {
 	public:
 		CppFunction0(void (*fun)(void) )  ;
 		
-		SEXP operator()(SEXP* args) ;
+		SEXP operator()(SEXP* args) throw(std::exception) ;
 		
 		inline int nargs(){ return 0; }
 		inline bool is_void(){ return true; }
