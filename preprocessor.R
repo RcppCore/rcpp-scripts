@@ -24,8 +24,8 @@ extern "C" SEXP __NAME__(%s){                       \\
 SEXP res = R_NilValue ;                             \\
 BEGIN_RCPP                                          \\
 res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(%s) ) ; \\
-END_RCPP                                            \\
 return res ;                                        \\
+END_RCPP                                            \\
 }                                                   \\
 __OUT__ RCPP_DECORATE(__NAME__)(%s)', 
 	i,
@@ -60,7 +60,6 @@ extern "C" SEXP __NAME__(%s){                       \\
 BEGIN_RCPP                                          \\
 RCPP_DECORATE(__NAME__)(%s) ;                       \\
 END_RCPP                                            \\
-return R_NilValue ;                                 \\
 }                                                   \\
 void RCPP_DECORATE(__NAME__)(%s)', 
 	i,
@@ -128,12 +127,10 @@ extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
     return info   ;                                         \\
 }                                                           \\
 extern "C" SEXP __NAME__( SEXP xp %s ){                     \\
-SEXP res = R_NilValue ;                                     \\
 BEGIN_RCPP                                                  \\
 	::Rcpp::XPtr< __CLASS__ > ptr(xp) ;                       \\
-	res = ::Rcpp::wrap( ptr->__METHOD__( %s ) ) ;           \\
+	return ::Rcpp::wrap( ptr->__METHOD__( %s ) ) ;           \\
 END_RCPP                                                    \\
-return res ;                                                \\
 }
 ', 
 	i, 
@@ -160,12 +157,10 @@ extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
     return info   ;                                         \\
 }                                                           \\
 extern "C" SEXP __NAME__( SEXP xp %s ){                      \\
-SEXP res = R_NilValue ;                                      \\
 BEGIN_RCPP                                                   \\
 	::Rcpp::XPtr< __CLASS__ > ptr(xp) ;                        \\
-	res = ::Rcpp::wrap( __CAST__( ptr->__METHOD__( %s ) ) ) ;\\
+	return ::Rcpp::wrap( __CAST__( ptr->__METHOD__( %s ) ) ) ;\\
 END_RCPP                                                     \\
-return res ;                                                 \\
 }
 ', 
 	i, 
@@ -197,7 +192,6 @@ BEGIN_RCPP                                                         \\
 ::Rcpp::XPtr< __CLASS__ > ptr(xp) ;                                  \\
 ptr->__METHOD__( %s ) ;                                            \\
 END_RCPP                                                           \\
-	return R_NilValue ;                                            \\
 }
 ', 
 	i, 
