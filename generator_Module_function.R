@@ -4,8 +4,9 @@ fun <- function( i ){
 txt <- sprintf( '
 template <typename OUT%s>                                                                   
 void function( const char* name,  OUT (*fun)(%s)){
-  if( Rcpp::current_scope ){
-    Rcpp::current_scope->Add( name, new CppFunction%d<OUT%s>( fun ) ) ;
+  Rcpp::Module* scope = ::getCurrentScope() ;
+  if( scope ){
+    scope->Add( name, new CppFunction%d<OUT%s>( fun ) ) ;
   }
 }
 ', 
