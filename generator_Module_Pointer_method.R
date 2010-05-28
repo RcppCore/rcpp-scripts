@@ -14,7 +14,7 @@ txt <- sprintf( '
 
 	template <typename OUT, %s>
 	self& method( const char* name, OUT (*fun)(Class*, %s) ){
-		AddMethod( name, new CppMethod%d<Class,OUT,%s>( fun ) ) ;
+		AddMethod( name, new Pointer_CppMethod%d<Class,OUT,%s>( fun ) ) ;
   		return *this ;
 	}
 	
