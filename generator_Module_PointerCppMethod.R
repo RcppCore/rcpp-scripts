@@ -7,7 +7,7 @@ fun <- function( i ){
 	
 	typenames <- collapse( sprintf( "typename U%d", index ) )
 	u <- collapse( sprintf( "U%d u%d", index, index ) )
-    as <- collapse( sprintf( "Rcpp::as<U%d>( args[%d] )", index, index ) )  
+    as <- collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d >::type >( args[%d] )", index, index ) )  
     U <- collapse( sprintf( "U%d", index ) )
        
 txt <- sprintf( '
