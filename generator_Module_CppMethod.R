@@ -44,6 +44,38 @@ txt <- sprintf( '
 	} ;
 
 
+
+	template < typename Class, typename OUT, %s > class const_CppMethod%d : public CppMethod<Class> {
+	public:
+		typedef OUT (Class::*Method)(%s) const ;
+		typedef CppMethod<Class> method_class ;
+		
+		const_CppMethod%d(Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+			return Rcpp::wrap( (object->*met)( %s ) ) ;
+		}
+		inline int nargs(){ return %d ; }
+		inline bool is_void(){ return false ; }
+	private:
+		Method met ;
+	} ;
+	
+	template < typename Class, %s > class const_CppMethod%d<Class,void,%s> : public CppMethod<Class> {
+	public:
+		typedef void (Class::*Method)(%s) const ;
+		typedef CppMethod<Class> method_class ;
+		
+		const_CppMethod%d( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+			(object->*met)( %s ) ;
+			return R_NilValue ;
+		}
+		inline int nargs(){ return %d ; }
+		inline bool is_void(){ return true ; }
+	private:
+		Method met ;
+	} ;
+	
 ', 
 typenames,  # typename U0, ...
 i,           
@@ -58,7 +90,24 @@ U, 			# U0, ...
 u,          # U0 u0, ...
 i, 
 as, 
+i, 
+
+
+typenames,  # typename U0, ...
+i,           
+u,          # U0 u0, ...
+i, 
+as,         # Rcpp::as<U0>( args[0] ) , ...
+i, 
+
+typenames,  # typename U0, ...
+i, 
+U, 			# U0, ...
+u,          # U0 u0, ...
+i, 
+as, 
 i 
+
 
 )   
 
@@ -108,6 +157,35 @@ file <- sprintf(
 		typedef void (Class::*Method)(void) ;
 		typedef CppMethod<Class> method_class ;
 		CppMethod0( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+			(object->*met)( ) ;
+			return R_NilValue ;
+		}
+		inline int nargs(){ return 0 ; }
+		inline bool is_void(){ return true ; }
+	private:
+		Method met ;
+	} ;
+
+	template <typename Class, typename OUT> class const_CppMethod0 : public CppMethod<Class> {
+	public:
+		typedef OUT (Class::*Method)(void) const ;
+		typedef CppMethod<Class> method_class ;
+		const_CppMethod0( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+			return Rcpp::wrap( (object->*met)( ) ) ;
+		}
+		inline int nargs(){ return 0 ; }
+		inline bool is_void(){ return false ; }
+	private:
+		Method met ;
+	} ;
+	
+	template <typename Class> class const_CppMethod0<Class,void> : public CppMethod<Class> {
+	public:
+		typedef void (Class::*Method)(void) const ;
+		typedef CppMethod<Class> method_class ;
+		const_CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
 			(object->*met)( ) ;
 			return R_NilValue ;

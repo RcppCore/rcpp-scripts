@@ -7,7 +7,7 @@ fun <- function( i ){
 	
 	typenames <- collapse( sprintf( "typename U%d", index ) )
 	u <- collapse( sprintf( "U%d u%d", index, index ) )
-    as <- collapse( sprintf( "Rcpp::as<U%d>( args[%d] )", index, index ) )  
+    as <- collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d >::type >( args[%d] )", index, index ) )  
     U <- collapse( sprintf( "U%d", index ) )
     
 txt <- sprintf( '
@@ -18,8 +18,40 @@ txt <- sprintf( '
   		return *this ;
 	}
 	
+	template <typename OUT, %s>
+	self& method( const char* name, OUT (Class::*fun)(%s) const ){
+		AddMethod( name, new const_CppMethod%d<Class,OUT,%s>( fun ) ) ;
+  		return *this ;
+	}
+
+	template <typename OUT, %s>
+	self& nonconst_method( const char* name, OUT (Class::*fun)(%s) ){
+		AddMethod( name, new CppMethod%d<Class,OUT,%s>( fun ) ) ;
+  		return *this ;
+	}
+	
+	template <typename OUT, %s>
+	self& const_method( const char* name, OUT (Class::*fun)(%s) const ){
+		AddMethod( name, new const_CppMethod%d<Class,OUT,%s>( fun ) ) ;
+  		return *this ;
+	}
 
 ',
+typenames,   # typename U0, ...
+u,           # U0 u0, ...
+i,
+U,           # U0, ...
+
+typenames,   # typename U0, ...
+u,           # U0 u0, ...
+i,
+U,            # U0, ...
+
+typenames,   # typename U0, ...
+u,           # U0 u0, ...
+i,
+U,           # U0, ...
+
 typenames,   # typename U0, ...
 u,           # U0 u0, ...
 i,
@@ -60,7 +92,25 @@ file <- sprintf(
   		return *this ;
 	}
 	
+	template <typename OUT>
+	self& method( const char* name, OUT (Class::*fun)(void) const ){
+		AddMethod( name, new const_CppMethod0<Class,OUT>( fun ) ) ;
+  		return *this ;
+	}
 
+	
+	template <typename OUT>
+	self& nonconst_method( const char* name, OUT (Class::*fun)(void) ){
+		AddMethod( name, new CppMethod0<Class,OUT>( fun ) ) ;
+  		return *this ;
+	}
+	template <typename OUT>
+	self& const_method( const char* name, OUT (Class::*fun)(void) const ){
+		AddMethod( name, new const_CppMethod0<Class,OUT>( fun ) ) ;
+  		return *this ;
+	}
+	
+	
 %s
 
 #endif
