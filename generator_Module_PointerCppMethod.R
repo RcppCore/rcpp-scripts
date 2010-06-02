@@ -95,7 +95,7 @@ file <- sprintf(
 		typedef OUT (*Method)(Class*) ;
 		typedef CppMethod<Class> method_class ;
 		Pointer_CppMethod0( Method m) : method_class(), met(m){} 
-		SEXP operator()( Class* object, SEXP* args){
+		SEXP operator()( Class* object, SEXP* ){
 			return Rcpp::wrap( met(object) ) ;
 		}
 		inline int nargs(){ return 0 ; }
@@ -109,7 +109,7 @@ file <- sprintf(
 		typedef void (*Method)(Class*) ;
 		typedef CppMethod<Class> method_class ;
 		Pointer_CppMethod0( Method m) : method_class(), met(m){} 
-		SEXP operator()( Class* object, SEXP* args){
+		SEXP operator()( Class* object, SEXP* ){
 			met( object ) ;
 			return R_NilValue ;
 		}

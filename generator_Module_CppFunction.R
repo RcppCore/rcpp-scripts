@@ -87,7 +87,7 @@ template <typename OUT>
 class CppFunction0 : public CppFunction {
 	public:
 		CppFunction0(OUT (*fun)(void) ) : CppFunction(), ptr_fun(fun){}
-		SEXP operator()(SEXP* args) throw(std::range_error) {
+		SEXP operator()(SEXP*) throw(std::range_error) {
 			return Rcpp::wrap( ptr_fun() ) ;
 		}
 		
@@ -103,7 +103,7 @@ class CppFunction0<void> : public CppFunction {
 	public:
 		CppFunction0(void (*fun)(void) ) : CppFunction(), ptr_fun(fun){} ;
 		
-		SEXP operator()(SEXP* args) throw(std::exception) {
+		SEXP operator()(SEXP*) throw(std::exception) {
 			ptr_fun() ;
 			return R_NilValue ;
 		}
