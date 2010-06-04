@@ -10,26 +10,26 @@ function runConvolveBennchmark {
 
 function runFastLM {
     cd Rcpp/inst/examples/FastLM
-    ./benchmark.r
+    Rscript ./benchmark.r
     cd -
 }
 
 function runFunctionCallback {
     cd Rcpp/inst/examples/functionCallback
     ./buildAndRun.sh
-    ./newApiExample.r
+    Rscript ./newApiExample.r
     cd -
 }
 
 function runRcppInline {
     cd Rcpp/inst/examples/RcppInline
-    ./external_pointer.r
-    ./RcppInlineExample.r
-    ./RcppInlineWithLibsExamples.r
-    ./RcppSimpleExample.r
-    ./RcppSimpleTests.r
-    ./RObject.r
-    ./UncaughtExceptions.r
+    Rscript ./external_pointer.r
+    Rscript ./RcppInlineExample.r
+    Rscript ./RcppInlineWithLibsExamples.r
+    Rscript ./RcppSimpleExample.r
+    Rscript ./RcppSimpleTests.r
+    Rscript ./RObject.r
+    Rscript ./UncaughtExceptions.r
     cd -
 }
 
