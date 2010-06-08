@@ -50,11 +50,4 @@ if [ -x /usr/bin/doxygen ]; then
     fi
     cd ${cwd}
 
-    if [ -d ~/www/code/rcpp/ ]; then
-	cd ~/www/code/rcpp/
-	if [ -d /net/ron/home/edd/www/code/rcpp ]; then
-	    rsync -navu --delete . /net/ron/home/edd/www/code/rcpp
-	fi
-    fi
-
 fi
