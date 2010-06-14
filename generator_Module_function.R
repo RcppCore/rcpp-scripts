@@ -3,10 +3,10 @@ fun <- function( i ){
 	
 txt <- sprintf( '
 template <typename OUT%s>                                                                   
-void function( const char* name,  OUT (*fun)(%s)){
+void function( const char* name_,  OUT (*fun)(%s)){
   Rcpp::Module* scope = ::getCurrentScope() ;
   if( scope ){
-    scope->Add( name, new CppFunction%d<OUT%s>( fun ) ) ;
+    scope->Add( name_, new CppFunction%d<OUT%s>( fun ) ) ;
   }
 }
 ', 

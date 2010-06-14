@@ -13,26 +13,26 @@ fun <- function( i ){
 txt <- sprintf( '
 
 	template <typename OUT, %s>
-	self& method( const char* name, OUT (Class::*fun)(%s) ){
-		AddMethod( name, new CppMethod%d<Class,OUT,%s>( fun ) ) ;
+	self& method( const char* name_, OUT (Class::*fun)(%s) ){
+		AddMethod( name_, new CppMethod%d<Class,OUT,%s>( fun ) ) ;
   		return *this ;
 	}
 	
 	template <typename OUT, %s>
-	self& method( const char* name, OUT (Class::*fun)(%s) const ){
-		AddMethod( name, new const_CppMethod%d<Class,OUT,%s>( fun ) ) ;
+	self& method( const char* name_, OUT (Class::*fun)(%s) const ){
+		AddMethod( name_, new const_CppMethod%d<Class,OUT,%s>( fun ) ) ;
   		return *this ;
 	}
 
 	template <typename OUT, %s>
-	self& nonconst_method( const char* name, OUT (Class::*fun)(%s) ){
-		AddMethod( name, new CppMethod%d<Class,OUT,%s>( fun ) ) ;
+	self& nonconst_method( const char* name_, OUT (Class::*fun)(%s) ){
+		AddMethod( name_, new CppMethod%d<Class,OUT,%s>( fun ) ) ;
   		return *this ;
 	}
 	
 	template <typename OUT, %s>
-	self& const_method( const char* name, OUT (Class::*fun)(%s) const ){
-		AddMethod( name, new const_CppMethod%d<Class,OUT,%s>( fun ) ) ;
+	self& const_method( const char* name_, OUT (Class::*fun)(%s) const ){
+		AddMethod( name_, new const_CppMethod%d<Class,OUT,%s>( fun ) ) ;
   		return *this ;
 	}
 
@@ -87,26 +87,26 @@ file <- sprintf(
 #define Rcpp_Module_generated_method_h
 
 	template <typename OUT>
-	self& method( const char* name, OUT (Class::*fun)(void) ){
-		AddMethod( name, new CppMethod0<Class,OUT>( fun ) ) ;
+	self& method( const char* name_, OUT (Class::*fun)(void) ){
+		AddMethod( name_, new CppMethod0<Class,OUT>( fun ) ) ;
   		return *this ;
 	}
 	
 	template <typename OUT>
-	self& method( const char* name, OUT (Class::*fun)(void) const ){
-		AddMethod( name, new const_CppMethod0<Class,OUT>( fun ) ) ;
+	self& method( const char* name_, OUT (Class::*fun)(void) const ){
+		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ) ) ;
   		return *this ;
 	}
 
 	
 	template <typename OUT>
-	self& nonconst_method( const char* name, OUT (Class::*fun)(void) ){
-		AddMethod( name, new CppMethod0<Class,OUT>( fun ) ) ;
+	self& nonconst_method( const char* name_, OUT (Class::*fun)(void) ){
+		AddMethod( name_, new CppMethod0<Class,OUT>( fun ) ) ;
   		return *this ;
 	}
 	template <typename OUT>
-	self& const_method( const char* name, OUT (Class::*fun)(void) const ){
-		AddMethod( name, new const_CppMethod0<Class,OUT>( fun ) ) ;
+	self& const_method( const char* name_, OUT (Class::*fun)(void) const ){
+		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ) ) ;
   		return *this ;
 	}
 	
