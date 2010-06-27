@@ -10,7 +10,8 @@ fi
 version=$(r -e'cat(as.character(read.dcf("Rcpp/DESCRIPTION")[,"Version"]))')
 echo "Working on version $version"
 
-export RCPP_CXX0X="yes"
+#export RCPP_CXX0X="yes"
+export RCPP_CXX0X="no"
 R CMD build --force Rcpp
 
 test -d tarballs   && cp -vax Rcpp_${version}.tar.gz tarballs/rcpp_${version}.orig.tar.gz
