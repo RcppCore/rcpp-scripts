@@ -36,6 +36,7 @@ if [ -x /usr/bin/doxygen ]; then
     cd ${cwd}
 
     cd Rcpp/inst/doc/latex
+    ## as release 0.8.3 this now requires increasing pool_size in /etc/texmf/texmf.conf
     pdflatex refman
     pdflatex refman
     if [ -d ~/www/code/rcpp/ ]; then
