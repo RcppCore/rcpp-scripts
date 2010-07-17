@@ -1,5 +1,5 @@
 #!/usr/bin/Rscript
-#  this should really be /usr/bin/r but you-know-know on a Mac ...
+#  this should really be /usr/bin/r but you-know-who on a Mac ...
 
 dir <- "Rcpp/inst/unitTests"
 files <- list.files( dir, pattern = "^runit[.]", full = TRUE )
