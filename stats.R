@@ -7,8 +7,7 @@ cook <- function(
 		sigma = list( type = "double", default = "1.0" ) 
 	), 
 	input = c("double", "integer"), 
-	# output = sprintf("Rcpp/inst/include/Rcpp/stats/%s.h", dist)
-	output = sprintf( "/tmp/%s.h", dist )
+	output = sprintf("Rcpp/inst/include/Rcpp/stats/%s.h", dist)
 	){
 
 	input <- match.arg( input )	
@@ -30,8 +29,10 @@ cook <- function(
 	param_init <- paste( names(params), "(", names(params), "_)", sep = "" )
 	param_init <- paste( param_init, collapse = ", ")
 	
-	param_list <- paste( names(params), collapse = ", " )
-		
+	param_list  <- paste( names(params), collapse = ", " )
+	param_ulist <- paste( paste( names(params), "_", sep = "" ),  collapse = ", " )
+	
+	
 code <- '
 // -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 4 -*-
 //
@@ -68,7 +69,7 @@ namespace impl {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,NA,T> VEC_TYPE;
 	
-		DNorm( const VEC_TYPE& vec_, __PARAM_DECL__ , bool log_ = false ) : 
+		D__UDIST__( const VEC_TYPE& vec_, __PARAM_DECL__ , bool log_ = false ) : 
 			vec(vec_), __PARAM_INIT__ , log(log_) {}
 		
 		inline double operator[]( int i) const {
@@ -132,17 +133,17 @@ namespace impl {
 
 template <bool NA, typename T>
 inline impl::D__UDIST__<NA,T> d__DIST__( const Rcpp::VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool log = false ) {
-	return impl::D__UDIST__<NA,T>( x, __PARAM_LIST__, log ); 
+	return impl::D__UDIST__<NA,T>( x, __PARAM_ULIST__, log ); 
 }
 
 template <bool NA, typename T>
 inline impl::P__UDIST__<NA,T> p__DIST__( const Rcpp::VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool lower = true, bool log = false ) {
-	return impl::P__UDIST__<NA,T>( x, __PARAM_LIST__, lower, log ); 
+	return impl::P__UDIST__<NA,T>( x, __PARAM_ULIST__, lower, log ); 
 }
 
 template <bool NA, typename T>
 inline impl::Q__UDIST__<NA,T> q__DIST__( const Rcpp::VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool lower = true, bool log = false ) {
-	return impl::Q__UDIST__<NA,T>( x, __PARAM_LIST__, lower, log ); 
+	return impl::Q__UDIST__<NA,T>( x, __PARAM_ULIST__, lower, log ); 
 }
 	
 }
@@ -154,9 +155,17 @@ code <- gsub( "__DIST__" , dist, code, fixed = TRUE )
 code <- gsub( "__UDIST__", udist, code, fixed = TRUE )
 code <- gsub( "__PARAM_INIT__", param_init, code, fixed = TRUE )
 code <- gsub( "__PARAM_LIST__", param_list, code, fixed = TRUE )
+code <- gsub( "__PARAM_ULIST__", param_ulist, code, fixed = TRUE )
 code <- gsub( "__PARAM_DECL__", param_decl, code, fixed = TRUE )
+code <- gsub( "__PARAM_DEF__", param_def, code, fixed = TRUE )
 
 writeLines( code, output )
 
 }
+
+# cook( "unif", params = list( 
+# 	"min" = list( type = "double", default = "0.0" ), 
+# 	"max" = list( type = "double", default = "1.0" )
+# 	) )
+
 
