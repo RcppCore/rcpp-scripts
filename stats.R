@@ -186,9 +186,14 @@ writeLines( code, output )
 # 		"shape" = list( type = "double" ), 
 # 		"scale" = list( type = "double", default = "1.0" )
 #  	)  )
+# 
+# cook( "logis", params = list(
+# 		"location" = list( type = "double", default = "0.0" ), 
+# 		"scale" = list( type = "double", default = "1.0" )
+#  	)  )
 
-cook( "logis", params = list(
-		"location" = list( type = "double", default = "0.0" ), 
-		"scale" = list( type = "double", default = "1.0" )
+cook( "f", params = list(
+		"df1" = list( type = "double" ), 
+		"df2" = list( type = "double" )
  	)  )
 
