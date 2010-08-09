@@ -176,9 +176,14 @@ writeLines( code, output )
 # cook( "chisq", params = list( 
 # 	"df" = list( type = "double" ) 
 # 	) )
+#
+#cook( "lnorm", params = list( 
+#	"meanlog" = list( type = "double", default = "0.0" ), 
+#	"sdlog" = list( type = "double", default = "1.0" )
+#	) )
 
-cook( "lnorm", params = list( 
-	"meanlog" = list( type = "double", default = "0.0" ), 
-	"sdlog" = list( type = "double", default = "1.0" )
-	) )
-	
+cook( "weibull", params = list( 
+		"shape" = list( type = "double" ), 
+		"scale" = list( type = "double", default = "1.0" )
+ 	)  )
+
