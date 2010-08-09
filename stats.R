@@ -167,5 +167,18 @@ writeLines( code, output )
 # 	"min" = list( type = "double", default = "0.0" ), 
 # 	"max" = list( type = "double", default = "1.0" )
 # 	) )
+# 
+# cook( "gamma", params = list( 
+# 	"shape" = list( type = "double" ), 
+# 	"scale" = list( type = "double", default = "1.0" )
+# 	) )
+# 
+# cook( "chisq", params = list( 
+# 	"df" = list( type = "double" ) 
+# 	) )
 
-
+cook( "lnorm", params = list( 
+	"meanlog" = list( type = "double", default = "0.0" ), 
+	"sdlog" = list( type = "double", default = "1.0" )
+	) )
+	
