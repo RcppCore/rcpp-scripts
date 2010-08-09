@@ -167,7 +167,7 @@ writeLines( code, output )
 # 	"min" = list( type = "double", default = "0.0" ), 
 # 	"max" = list( type = "double", default = "1.0" )
 # 	) )
-# 
+#                                   
 # cook( "gamma", params = list( 
 # 	"shape" = list( type = "double" ), 
 # 	"scale" = list( type = "double", default = "1.0" )
@@ -177,13 +177,18 @@ writeLines( code, output )
 # 	"df" = list( type = "double" ) 
 # 	) )
 #
-#cook( "lnorm", params = list( 
+# cook( "lnorm", params = list( 
 #	"meanlog" = list( type = "double", default = "0.0" ), 
 #	"sdlog" = list( type = "double", default = "1.0" )
 #	) )
+# 
+# cook( "weibull", params = list(
+# 		"shape" = list( type = "double" ), 
+# 		"scale" = list( type = "double", default = "1.0" )
+#  	)  )
 
-cook( "weibull", params = list( 
-		"shape" = list( type = "double" ), 
+cook( "logis", params = list(
+		"location" = list( type = "double", default = "0.0" ), 
 		"scale" = list( type = "double", default = "1.0" )
  	)  )
 
