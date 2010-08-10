@@ -62,7 +62,6 @@ code <- '
 
 namespace Rcpp {
 namespace stats {
-namespace impl {
 
 	template <bool NA, typename T>
 	class D__UDIST__ : public Rcpp::VectorBase< REALSXP, NA, D__UDIST__<NA,T> >{
@@ -129,25 +128,24 @@ namespace impl {
 	
 	};
 	
-} // impl
+} // stats
 
 template <bool NA, typename T>
-inline impl::D__UDIST__<NA,T> d__DIST__( const Rcpp::VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool log = false ) {
-	return impl::D__UDIST__<NA,T>( x, __PARAM_ULIST__, log ); 
+inline stats::D__UDIST__<NA,T> d__DIST__( const VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool log = false ) {
+	return stats::D__UDIST__<NA,T>( x, __PARAM_ULIST__, log ); 
 }
 
 template <bool NA, typename T>
-inline impl::P__UDIST__<NA,T> p__DIST__( const Rcpp::VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool lower = true, bool log = false ) {
-	return impl::P__UDIST__<NA,T>( x, __PARAM_ULIST__, lower, log ); 
+inline stats::P__UDIST__<NA,T> p__DIST__( const VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool lower = true, bool log = false ) {
+	return stats::P__UDIST__<NA,T>( x, __PARAM_ULIST__, lower, log ); 
 }
 
 template <bool NA, typename T>
-inline impl::Q__UDIST__<NA,T> q__DIST__( const Rcpp::VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool lower = true, bool log = false ) {
-	return impl::Q__UDIST__<NA,T>( x, __PARAM_ULIST__, lower, log ); 
+inline stats::Q__UDIST__<NA,T> q__DIST__( const VectorBase<REALSXP,NA,T>& x, __PARAM_DECL__, bool lower = true, bool log = false ) {
+	return stats::Q__UDIST__<NA,T>( x, __PARAM_ULIST__, lower, log ); 
 }
 	
-}
-}
+} // Rcpp
 
 #endif
 '
