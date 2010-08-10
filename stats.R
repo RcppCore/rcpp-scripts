@@ -191,9 +191,64 @@ writeLines( code, output )
 # 		"location" = list( type = "double", default = "0.0" ), 
 # 		"scale" = list( type = "double", default = "1.0" )
 #  	)  )
+# 
+# cook( "f", params = list(
+# 	"df1" = list( type = "double" ), 
+# 	"df2" = list( type = "double" )
+#  	)  )
+#
 
-cook( "f", params = list(
-		"df1" = list( type = "double" ), 
-		"df2" = list( type = "double" )
- 	)  )
+# # manual editing needed so that the dexp, qexp, etc ...
+# # are parameterized by shape instead of rate
+# cook( "exp", params = list( 
+# 	"rate" = list( type = "double", default = "1.0" )
+# ) )
+# 
+
+# cook( "cauchy", params = list( 
+# 	"location" = list( type = "double", default = "0.0" ), 
+# 	"scale" = list( type = "double", default = "1.0" )
+# ) )
+
+# cook( "geom", params = list( 
+# 	prob = list( type = "double" ) 
+# 	) )
+
+# cook( "hyper", params = list( 
+# 	mm = list( type = "double" ), 
+# 	nn = list( type = "double" ),
+# 	kk = list( type = "double" )
+# 	) )
+
+# cook( "nt", params = list(
+# 	"df" = list( type = "double" ), 
+# 	"ncp" = list( type = "double" )
+# ) )
+
+# cook( "nchisq", params = list(
+# 	"df" = list( type = "double" ), 
+# 	"ncp" = list( type = "double" )
+# ) )
+ 
+# cook( "nbeta", params = list( 
+# 	"shape1" = list( type = "double" ), 
+# 	"shape2" = list( type = "double" ), 
+# 	"ncp" = list( type = "double" ) 
+# ) )
+
+# cook( "nf", params = list(
+# 	"df1" = list( type = "double" ), 
+# 	"df2" = list( type = "double" ), 
+# 	"ncp" = list( type = "double" )
+#  	)  )
+
+# cook( "nbinom", params = list(
+# 	"size" = list( type = "int" ),
+# 	"prob" = list( type = "double" )
+#  	)  )
+# 
+# cook( "nbinom_mu", params = list(
+# 	"size" = list( type = "int" ),
+# 	"mu"   = list( type = "double" )
+#  	)  )
 
