@@ -12,6 +12,10 @@ echo "Working on version $version"
 
 #export RCPP_CXX0X="yes"
 export RCPP_CXX0X="no"
+
+## remove old pdf vignettes and make fresh ones
+cd Rcpp/inst/doc && make pdfclean && make && cd - 
+
 R CMD build --force Rcpp
 
 test -d tarballs   && cp -vax Rcpp_${version}.tar.gz tarballs/rcpp_${version}.orig.tar.gz
