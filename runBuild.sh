@@ -8,7 +8,8 @@ if [ ! -d Rcpp ]; then
 fi
 
 version=$(r -e'cat(as.character(read.dcf("Rcpp/DESCRIPTION")[,"Version"]))')
-echo "Working on version $version"
+encodedversion=$(grep RCPP_VERSION Rcpp/inst/include/Rcpp/config.h | awk '{print $3}')
+echo "Working on:  $encodedversion -- $version"
 
 #export RCPP_CXX0X="yes"
 export RCPP_CXX0X="no"
