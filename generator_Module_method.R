@@ -92,25 +92,25 @@ file <- sprintf(
 
 	template <typename OUT>
 	self& method( const char* name_, OUT (Class::*fun)(void), ValidMethod valid = &yes ){
-		AddMethod( name_, new CppMethod0<Class,OUT>( fun ) ) ;
+		AddMethod( name_, new CppMethod0<Class,OUT>( fun ), valid) ;
   		return *this ;
 	}
 	
 	template <typename OUT>
 	self& method( const char* name_, OUT (Class::*fun)(void) const, ValidMethod valid = &yes ){
-		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ) ) ;
+		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ), valid ) ;
   		return *this ;
 	}
 
 	
 	template <typename OUT>
 	self& nonconst_method( const char* name_, OUT (Class::*fun)(void), ValidMethod valid = &yes ){
-		AddMethod( name_, new CppMethod0<Class,OUT>( fun ) ) ;
+		AddMethod( name_, new CppMethod0<Class,OUT>( fun ) , valid) ;
   		return *this ;
 	}
 	template <typename OUT>
 	self& const_method( const char* name_, OUT (Class::*fun)(void) const, ValidMethod valid = &yes ){
-		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ) ) ;
+		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ), valid ) ;
   		return *this ;
 	}
 	
