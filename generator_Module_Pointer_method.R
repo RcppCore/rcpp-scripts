@@ -13,8 +13,8 @@ fun <- function( i ){
 txt <- sprintf( '
 
 	template <typename OUT, %s>
-	self& method( const char* name_, OUT (*fun)(Class*, %s) ){
-		AddMethod( name_, new Pointer_CppMethod%d<Class,OUT,%s>( fun ) ) ;
+	self& method( const char* name_, OUT (*fun)(Class*, %s), ValidMethod valid = &yes_arity<%d> ){
+		AddMethod( name_, new Pointer_CppMethod%d<Class,OUT,%s>( fun ), valid ) ;
   		return *this ;
 	}
 	
@@ -22,6 +22,7 @@ txt <- sprintf( '
 ',
 typenames,   # typename U0, ...
 u,           # U0 u0, ...
+i,
 i,
 U            # U0, ...
 
@@ -55,8 +56,8 @@ file <- sprintf(
 #define Rcpp_Module_generated_Pointer_method_h
 
 	template <typename OUT>
-	self& method( const char* name_, OUT (*fun)(Class*) ){
-		AddMethod( name_, new Pointer_CppMethod0<Class,OUT>( fun ) ) ;
+	self& method( const char* name_, OUT (*fun)(Class*), ValidMethod valid = &yes ){
+		AddMethod( name_, new Pointer_CppMethod0<Class,OUT>( fun ), valid ) ;
   		return *this ;
 	}
 	
