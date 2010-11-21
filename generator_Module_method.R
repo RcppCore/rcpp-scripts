@@ -13,26 +13,26 @@ fun <- function( i ){
 txt <- sprintf( '
 
 	template <typename OUT, %s>
-	self& method( const char* name_, OUT (Class::*fun)(%s), ValidMethod valid = &yes_arity<%d> ){
-		AddMethod( name_, new CppMethod%d<Class,OUT,%s>( fun ), valid ) ;
+	self& method( const char* name_, OUT (Class::*fun)(%s), const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
+		AddMethod( name_, new CppMethod%d<Class,OUT,%s>( fun ), valid, docstring) ;
   		return *this ;
 	}
 	
 	template <typename OUT, %s>
-	self& method( const char* name_, OUT (Class::*fun)(%s) const, ValidMethod valid = &yes_arity<%d> ){
-		AddMethod( name_, new const_CppMethod%d<Class,OUT,%s>( fun ), valid ) ;
+	self& method( const char* name_, OUT (Class::*fun)(%s) const, const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
+		AddMethod( name_, new const_CppMethod%d<Class,OUT,%s>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 
 	template <typename OUT, %s>
-	self& nonconst_method( const char* name_, OUT (Class::*fun)(%s), ValidMethod valid = &yes_arity<%d> ){
-		AddMethod( name_, new CppMethod%d<Class,OUT,%s>( fun ), valid ) ;
+	self& nonconst_method( const char* name_, OUT (Class::*fun)(%s), const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
+		AddMethod( name_, new CppMethod%d<Class,OUT,%s>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 	
 	template <typename OUT, %s>
-	self& const_method( const char* name_, OUT (Class::*fun)(%s) const , ValidMethod valid = &yes_arity<%d>){
-		AddMethod( name_, new const_CppMethod%d<Class,OUT,%s>( fun ), valid ) ;
+	self& const_method( const char* name_, OUT (Class::*fun)(%s) const, const char* docstring = 0, ValidMethod valid = &yes_arity<%d>){
+		AddMethod( name_, new const_CppMethod%d<Class,OUT,%s>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 
@@ -91,26 +91,26 @@ file <- sprintf(
 #define Rcpp_Module_generated_method_h
 
 	template <typename OUT>
-	self& method( const char* name_, OUT (Class::*fun)(void), ValidMethod valid = &yes ){
-		AddMethod( name_, new CppMethod0<Class,OUT>( fun ), valid) ;
+	self& method( const char* name_, OUT (Class::*fun)(void), const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new CppMethod0<Class,OUT>( fun ), valid, docstring) ;
   		return *this ;
 	}
 	
 	template <typename OUT>
-	self& method( const char* name_, OUT (Class::*fun)(void) const, ValidMethod valid = &yes ){
-		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ), valid ) ;
+	self& method( const char* name_, OUT (Class::*fun)(void) const, const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 
 	
 	template <typename OUT>
-	self& nonconst_method( const char* name_, OUT (Class::*fun)(void), ValidMethod valid = &yes ){
-		AddMethod( name_, new CppMethod0<Class,OUT>( fun ) , valid) ;
+	self& nonconst_method( const char* name_, OUT (Class::*fun)(void), const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new CppMethod0<Class,OUT>( fun ) , valid, docstring ) ;
   		return *this ;
 	}
 	template <typename OUT>
-	self& const_method( const char* name_, OUT (Class::*fun)(void) const, ValidMethod valid = &yes ){
-		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ), valid ) ;
+	self& const_method( const char* name_, OUT (Class::*fun)(void) const, const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new const_CppMethod0<Class,OUT>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 	
