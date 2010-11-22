@@ -17,12 +17,13 @@ txt <- sprintf( '
 		typedef OUT (Class::*Method)(%s) ;
 		typedef CppMethod<Class> method_class ;
 		
-		CppMethod%d(Method m) : method_class(), met(m){} 
+		CppMethod%d(Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
 			return Rcpp::wrap( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
+		const char* signature(const char* name ){ return Rcpp::signature<OUT,%s>(name) ; }
 	private:
 		Method met ;
 	} ;
@@ -39,6 +40,7 @@ txt <- sprintf( '
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return true ; }
+		const char* signature(const char* name ){ return Rcpp::signature<void_type,%s>(name) ; }
 	private:
 		Method met ;
 	} ;
@@ -56,6 +58,8 @@ txt <- sprintf( '
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
+		const char* signature(const char* name ){ return Rcpp::signature<OUT,%s>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -65,13 +69,15 @@ txt <- sprintf( '
 		typedef void (Class::*Method)(%s) const ;
 		typedef CppMethod<Class> method_class ;
 		
-		const_CppMethod%d( Method m) : method_class(), met(m){} 
+		const_CppMethod%d( Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
 			(object->*met)( %s ) ;
 			return R_NilValue ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return true ; }
+		const char* signature(const char* name ){ return Rcpp::signature<void_type,%s>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -83,14 +89,16 @@ u,          # U0 u0, ...
 i, 
 as,         # Rcpp::as<U0>( args[0] ) , ...
 i, 
+U,
 
 typenames,  # typename U0, ...
 i, 
 U, 			# U0, ...
 u,          # U0 u0, ...
-i, 
+i,
 as, 
 i, 
+U,
 
 
 typenames,  # typename U0, ...
@@ -99,14 +107,16 @@ u,          # U0 u0, ...
 i, 
 as,         # Rcpp::as<U0>( args[0] ) , ...
 i, 
+U, 
 
 typenames,  # typename U0, ...
 i, 
-U, 			# U0, ...
+U, 			 # U0, ...
 u,          # U0 u0, ...
 i, 
 as, 
-i 
+i,
+U 
 
 
 )   
@@ -148,6 +158,8 @@ file <- sprintf(
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -163,6 +175,8 @@ file <- sprintf(
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return true ; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -177,6 +191,8 @@ file <- sprintf(
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -185,13 +201,15 @@ file <- sprintf(
 	public:
 		typedef void (Class::*Method)(void) const ;
 		typedef CppMethod<Class> method_class ;
-		const_CppMethod0( Method m) : method_class(), met(m){} 
+		const_CppMethod0( Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* ){
 			(object->*met)( ) ;
 			return R_NilValue ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return true ; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
+		
 	private:
 		Method met ;
 	} ;

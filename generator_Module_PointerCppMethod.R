@@ -23,6 +23,8 @@ txt <- sprintf( '
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT,%s>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -39,6 +41,8 @@ txt <- sprintf( '
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return true ; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type,%s>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -50,7 +54,8 @@ i,
 u,          # U0 u0, ...
 i, 
 as,         # Rcpp::as<U0>( args[0] ) , ...
-i, 
+i,
+U, 
 
 typenames,  # typename U0, ...
 i, 
@@ -58,7 +63,8 @@ U, 			# U0, ...
 u,          # U0 u0, ...
 i, 
 as, 
-i 
+i,
+U
 
 )   
 
@@ -100,6 +106,8 @@ file <- sprintf(
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
@@ -115,6 +123,8 @@ file <- sprintf(
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return true ; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
+		
 	private:
 		Method met ;
 	} ;
