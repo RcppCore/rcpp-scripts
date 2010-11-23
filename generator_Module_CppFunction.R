@@ -16,6 +16,7 @@ class CppFunction%d : public CppFunction {
 		}
 		
 		inline int nargs(){ return %d; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT,%s>(name) ; }
 		
 	private:
 		OUT (*ptr_fun)(%s) ;	
@@ -33,6 +34,7 @@ class CppFunction%d<void,%s> : public CppFunction {
 		
 		inline int nargs(){ return %d; }
 		inline bool is_void(){ return true; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type,%s>(name) ; }
 		
 	private:
 		void (*ptr_fun)(%s) ;	
@@ -46,6 +48,8 @@ collapse( sprintf( "U%d", index ) ),
 collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d >::type >( args[%d] )", index, index ) ),
 i, 
 collapse( sprintf( "U%d", index ) ), 
+collapse( sprintf( "U%d", index ) ), 
+
 paste( sprintf( "typename U%d", index ), collapse = ", " ), 
 i, 
 collapse( sprintf( "U%d", index ) ), 
@@ -53,6 +57,7 @@ i,
 collapse( sprintf( "U%d", index ) ), 
 collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d>::type >( args[%d] )", index, index ) ),
 i, 
+collapse( sprintf( "U%d", index ) ), 
 collapse( sprintf( "U%d", index ) )
 )
 	
@@ -61,7 +66,7 @@ collapse( sprintf( "U%d", index ) )
 file <- sprintf( 
 '// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
 //
-// Module_generated_function.h: Rcpp R/C++ interface class library -- Rcpp modules
+// Module_generated_CppFunction.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
 // Copyright (C) 2010	Dirk Eddelbuettel and Romain Francois
 //
@@ -92,6 +97,7 @@ class CppFunction0 : public CppFunction {
 		}
 		
 		inline int nargs(){ return 0; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
 		
 	private:
 		OUT (*ptr_fun)(void) ;	                    
@@ -110,6 +116,7 @@ class CppFunction0<void> : public CppFunction {
 		
 		inline int nargs(){ return 0; }
 		inline bool is_void(){ return true; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
 		
 	private:
 		void (*ptr_fun)(void) ;	
