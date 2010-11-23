@@ -9,7 +9,7 @@ template <typename OUT, %s>
 class CppFunction%d : public CppFunction {
 	public:
 
-		CppFunction%d(OUT (*fun)(%s) ) : CppFunction(), ptr_fun(fun){}
+		CppFunction%d(OUT (*fun)(%s) , const char* docstring = 0) : CppFunction(docsring), ptr_fun(fun){}
 		
 		SEXP operator()(SEXP* args) throw(std::exception){
 			return Rcpp::wrap( ptr_fun( %s ) ) ;
@@ -24,7 +24,7 @@ class CppFunction%d : public CppFunction {
 template <%s>
 class CppFunction%d<void,%s> : public CppFunction {
 	public:
-		CppFunction%d(void (*fun)(%s) ) : CppFunction(), ptr_fun(fun){}
+		CppFunction%d(void (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun){}
 		
 		SEXP operator()(SEXP* args) throw(std::exception) {
 			ptr_fun( %s ) ;
@@ -86,7 +86,7 @@ file <- sprintf(
 template <typename OUT>
 class CppFunction0 : public CppFunction {
 	public:
-		CppFunction0(OUT (*fun)(void) ) : CppFunction(), ptr_fun(fun){}
+		CppFunction0(OUT (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
 		SEXP operator()(SEXP*) throw(std::range_error) {
 			return Rcpp::wrap( ptr_fun() ) ;
 		}
@@ -101,7 +101,7 @@ class CppFunction0 : public CppFunction {
 template <>
 class CppFunction0<void> : public CppFunction {
 	public:
-		CppFunction0(void (*fun)(void) ) : CppFunction(), ptr_fun(fun){} ;
+		CppFunction0(void (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){} ;
 		
 		SEXP operator()(SEXP*) throw(std::exception) {
 			ptr_fun() ;
