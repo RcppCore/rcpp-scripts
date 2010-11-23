@@ -9,7 +9,7 @@ template <typename OUT, %s>
 class CppFunction%d : public CppFunction {
 	public:
 
-		CppFunction%d(OUT (*fun)(%s) , const char* docstring = 0) : CppFunction(docsring), ptr_fun(fun){}
+		CppFunction%d(OUT (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun){}
 		
 		SEXP operator()(SEXP* args) throw(std::exception){
 			return Rcpp::wrap( ptr_fun( %s ) ) ;
