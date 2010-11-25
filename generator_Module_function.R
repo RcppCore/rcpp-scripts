@@ -1,6 +1,10 @@
 
 fun <- function( i ){
 	
+    typename <- if( i == 0 ) "" else paste( ",", paste( sprintf( "typename U%d", (1:i)-1 ), collapse = ", " ) , sep = "" )
+    Uu <- if( i == 0 ) "void" else paste( sprintf( "U%d u%d", (1:i)-1, (1:i)-1 ), collapse = ", " )
+    U <- if( i == 0 ) "" else paste( ",", paste( sprintf( "U%d", (1:i)-1 ), collapse = ", " ) , sep = "" )
+    
 txt <- sprintf( '
 template <typename OUT%s>                                                                   
 void function( const char* name_,  OUT (*fun)(%s), const char* docstring = 0){
@@ -9,11 +13,24 @@ void function( const char* name_,  OUT (*fun)(%s), const char* docstring = 0){
     scope->Add( name_, new CppFunction%d<OUT%s>( fun, docstring ) ) ;
   }
 }
+
+template <typename OUT%s>                                                                   
+void function( const char* name_,  OUT (*fun)(%s), Rcpp::List formals, const char* docstring = 0){
+  Rcpp::Module* scope = ::getCurrentScope() ;
+  if( scope ){
+    scope->Add( name_, new CppFunction_WithFormals%d<OUT%s>( fun, formals, docstring ) ) ;
+  }
+}
 ', 
-if( i == 0 ) "" else paste( ",", paste( sprintf( "typename U%d", (1:i)-1 ), collapse = ", " ) , sep = "" ), 
-if( i == 0 ) "void" else paste( sprintf( "U%d u%d", (1:i)-1, (1:i)-1 ), collapse = ", " ), 
+typename, 
+Uu, 
 i, 
-if( i == 0 ) "" else paste( ",", paste( sprintf( "U%d", (1:i)-1 ), collapse = ", " ) , sep = "" )
+U, 
+
+typename, 
+Uu, 
+i, 
+U
 )
 	
 }

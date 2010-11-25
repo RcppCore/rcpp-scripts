@@ -40,6 +40,49 @@ class CppFunction%d<void,%s> : public CppFunction {
 		void (*ptr_fun)(%s) ;	
 } ;
 
+
+
+template <typename OUT, %s>
+class CppFunction_WithFormals%d : public CppFunction {
+	public:
+
+		CppFunction_WithFormals%d(OUT (*fun)(%s) , Rcpp::List formals_, const char* docstring = 0) : 
+		    CppFunction(docstring), formals(formals_), ptr_fun(fun){}
+		
+		SEXP operator()(SEXP* args) throw(std::exception){
+			return Rcpp::wrap( ptr_fun( %s ) ) ;
+		}
+		
+		inline int nargs(){ return %d; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT,%s>(name) ; }
+		SEXP get_formals(){ return formals; }
+		
+	private:
+		Rcpp::List formals ;
+		OUT (*ptr_fun)(%s) ;
+} ;
+
+template <%s>
+class CppFunction_WithFormals%d<void,%s> : public CppFunction {
+	public:
+		CppFunction_WithFormals%d(void (*fun)(%s), Rcpp::List formals_, const char* docstring = 0) : 
+		    CppFunction(docstring), formals(formals_), ptr_fun(fun){}
+		
+		SEXP operator()(SEXP* args) throw(std::exception) {
+			ptr_fun( %s ) ;
+			return R_NilValue ;
+		}
+		
+		inline int nargs(){ return %d; }
+		inline bool is_void(){ return true; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type,%s>(name) ; }
+		SEXP get_formals(){ return formals; }
+		
+	private:
+		Rcpp::List formals ;
+		void (*ptr_fun)(%s) ;	
+} ;
+
 ',
 collapse( sprintf( "typename U%d", index ) ), 
 i,
@@ -49,6 +92,28 @@ collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference<
 i, 
 collapse( sprintf( "U%d", index ) ), 
 collapse( sprintf( "U%d", index ) ), 
+
+
+paste( sprintf( "typename U%d", index ), collapse = ", " ), 
+i, 
+collapse( sprintf( "U%d", index ) ), 
+i, 
+collapse( sprintf( "U%d", index ) ), 
+collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d>::type >( args[%d] )", index, index ) ),
+i, 
+collapse( sprintf( "U%d", index ) ), 
+collapse( sprintf( "U%d", index ) ), 
+
+# _ WithFormals
+collapse( sprintf( "typename U%d", index ) ), 
+i,
+i, 
+collapse( sprintf( "U%d", index ) ),
+collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d >::type >( args[%d] )", index, index ) ),
+i, 
+collapse( sprintf( "U%d", index ) ), 
+collapse( sprintf( "U%d", index ) ), 
+
 
 paste( sprintf( "typename U%d", index ), collapse = ", " ), 
 i, 
@@ -108,6 +173,41 @@ template <>
 class CppFunction0<void> : public CppFunction {
 	public:
 		CppFunction0(void (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){} ;
+		
+		SEXP operator()(SEXP*) throw(std::exception) {
+			ptr_fun() ;
+			return R_NilValue ;
+		}
+		
+		inline int nargs(){ return 0; }
+		inline bool is_void(){ return true; }
+		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
+		
+	private:
+		void (*ptr_fun)(void) ;	
+} ;
+
+
+template <typename OUT>
+class CppFunction_WithFormals0 : public CppFunction {
+	public:
+		CppFunction_WithFormals0(OUT (*fun)(void), Rcpp::List,  const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
+		SEXP operator()(SEXP*) throw(std::range_error) {
+			return Rcpp::wrap( ptr_fun() ) ;
+		}
+		
+		inline int nargs(){ return 0; }
+		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
+		
+	private:
+		OUT (*ptr_fun)(void) ;	                    
+} ;
+
+
+template <>
+class CppFunction_WithFormals0<void> : public CppFunction {
+	public:
+		CppFunction_WithFormals0(void (*fun)(void), Rcpp::List, const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){} ;
 		
 		SEXP operator()(SEXP*) throw(std::exception) {
 			ptr_fun() ;
