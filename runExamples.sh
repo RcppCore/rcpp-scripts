@@ -16,7 +16,6 @@ function runFastLM {
 
 function runFunctionCallback {
     cd Rcpp/inst/examples/functionCallback
-    #./buildAndRun.sh
     Rscript ./newApiExample.r
     cd -
 }
@@ -27,7 +26,6 @@ function runRcppInline {
     Rscript ./RcppInlineExample.r
     Rscript ./RcppInlineWithLibsExamples.r
     Rscript ./RcppSimpleExample.r
-    Rscript ./RcppSimpleTests.r
     Rscript ./RObject.r
     Rscript ./UncaughtExceptions.r
     cd -
