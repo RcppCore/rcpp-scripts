@@ -16,7 +16,7 @@ function runFastLM {
 
 function runFunctionCallback {
     cd Rcpp/inst/examples/functionCallback
-    ./buildAndRun.sh
+    #./buildAndRun.sh
     Rscript ./newApiExample.r
     cd -
 }
