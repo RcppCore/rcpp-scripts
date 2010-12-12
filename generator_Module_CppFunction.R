@@ -16,7 +16,7 @@ class CppFunction%d : public CppFunction {
 		}
 		
 		inline int nargs(){ return %d; }
-		const char* signature(const char* name){ return Rcpp::signature<OUT,%s>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,%s>(s, name) ; }
 		
 	private:
 		OUT (*ptr_fun)(%s) ;	
@@ -34,7 +34,7 @@ class CppFunction%d<void,%s> : public CppFunction {
 		
 		inline int nargs(){ return %d; }
 		inline bool is_void(){ return true; }
-		const char* signature(const char* name){ return Rcpp::signature<void_type,%s>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type,%s>(s, name) ; }
 		
 	private:
 		void (*ptr_fun)(%s) ;	
@@ -54,7 +54,7 @@ class CppFunction_WithFormals%d : public CppFunction {
 		}
 		
 		inline int nargs(){ return %d; }
-		const char* signature(const char* name){ return Rcpp::signature<OUT,%s>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,%s>(s, name) ; }
 		SEXP get_formals(){ return formals; }
 		
 	private:
@@ -75,7 +75,7 @@ class CppFunction_WithFormals%d<void,%s> : public CppFunction {
 		
 		inline int nargs(){ return %d; }
 		inline bool is_void(){ return true; }
-		const char* signature(const char* name){ return Rcpp::signature<void_type,%s>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type,%s>(s, name) ; }
 		SEXP get_formals(){ return formals; }
 		
 	private:
@@ -162,7 +162,7 @@ class CppFunction0 : public CppFunction {
 		}
 		
 		inline int nargs(){ return 0; }
-		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
 		
 	private:
 		OUT (*ptr_fun)(void) ;	                    
@@ -181,7 +181,7 @@ class CppFunction0<void> : public CppFunction {
 		
 		inline int nargs(){ return 0; }
 		inline bool is_void(){ return true; }
-		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type>(s, name) ; }
 		
 	private:
 		void (*ptr_fun)(void) ;	
@@ -197,7 +197,7 @@ class CppFunction_WithFormals0 : public CppFunction {
 		}
 		
 		inline int nargs(){ return 0; }
-		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
 		
 	private:
 		OUT (*ptr_fun)(void) ;	                    
@@ -216,7 +216,7 @@ class CppFunction_WithFormals0<void> : public CppFunction {
 		
 		inline int nargs(){ return 0; }
 		inline bool is_void(){ return true; }
-		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type>(s, name) ; }
 		
 	private:
 		void (*ptr_fun)(void) ;	

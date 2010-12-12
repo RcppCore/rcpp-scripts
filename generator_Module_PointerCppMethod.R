@@ -24,7 +24,7 @@ txt <- sprintf( '
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
 		inline bool is_const(){ return false ; }
-		const char* signature(const char* name){ return Rcpp::signature<OUT,%s>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,%s>(s, name) ; }
 		
 	private:
 		Method met ;
@@ -43,7 +43,7 @@ txt <- sprintf( '
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return true ; }
 		inline bool is_const(){ return false ; }
-		const char* signature(const char* name){ return Rcpp::signature<void_type,%s>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type,%s>(s, name) ; }
 		
 	private:
 		Method met ;
@@ -77,7 +77,7 @@ file <- sprintf(
 //
 // Module_generated_CppMethod.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010	Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010	Doug Bates, Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -109,7 +109,7 @@ file <- sprintf(
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
 		inline bool is_const(){ return false ; }
-		const char* signature(const char* name){ return Rcpp::signature<OUT>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
 		
 	private:
 		Method met ;
@@ -128,7 +128,7 @@ file <- sprintf(
 		inline bool is_void(){ return true ; }
 		inline bool is_const(){ return false ; }
     
-		const char* signature(const char* name){ return Rcpp::signature<void_type>(name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type>(s, name) ; }
 		
 	private:
 		Method met ;

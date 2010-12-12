@@ -225,7 +225,7 @@ writeLines( code, output )
 
 # cook( "nchisq", params = list(
 # 	"df" = list( type = "double" ), 
-# 	"ncp" = list( type = "double" )
+# 	"ncp" = list( type = "double" )                  
 # ) )
  
 # cook( "nbeta", params = list( 
