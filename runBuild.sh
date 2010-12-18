@@ -1,4 +1,10 @@
 #!/bin/sh
+#
+# Rebuilds all vignettes
+# Builds tarball
+# Runs checks based on tarball
+# Copies tarball in place for Debian package builds from SVN dir
+# Copies tarball to web directory too
 
 set -e 
 
@@ -18,6 +24,8 @@ export RCPP_CXX0X="no"
 cd Rcpp/inst/doc && make pdfclean && make && cd - 
 
 R CMD build --force Rcpp
+
+R CMD check Rcpp_${version}.tar.gz
 
 test -d tarballs   && cp -vax Rcpp_${version}.tar.gz tarballs/rcpp_${version}.orig.tar.gz
 test -d build-area && cp -vax Rcpp_${version}.tar.gz build-area/rcpp_${version}.orig.tar.gz
