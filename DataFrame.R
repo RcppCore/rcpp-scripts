@@ -1,36 +1,33 @@
-#
-# use this script to generate the file DataFrame_generated.h
-#
+#!/usr/bin/r
+##
+## use this script to generate the file DataFrame_generated.h
+##
 
-DataFrame_generator <- function( i ){
-	
-sprintf( '
+DataFrame_generator <- function( i ) {
+    src <-
+    sprintf('
 template <%s>
-static DataFrame create( %s ) throw(not_compatible){
-	try{
-		return DataFrame( 
-			internal::try_catch( 
-				::Rf_lcons( ::Rf_install( "data.frame"), pairlist( %s ) )
-				) ) ;
-	} catch( eval_error& __ex__){
-		throw not_compatible("error calling the data.frame function") ;
-	}
-}
-', 
-paste( sprintf( "typename T%d", 1:i ), collapse = ", "), 
-paste( sprintf( "const T%d& t%d", 1:i, 1:i ), collapse = ", "), 
-paste( sprintf( "t%d", 1:i ), collapse = ", ")
-)
-	
+static DataFrame create( %s ) throw(not_compatible) {
+    try{
+	SEXP dataFrameSym = ::Rf_install( "data.frame"); // cannot be gc()ed once in symbol table
+	return DataFrame(internal::try_catch(::Rf_lcons(dataFrameSym, pairlist(%s))));
+    } catch( eval_error& __ex__){
+	throw not_compatible("error calling the data.frame function") ;
+    }
+} ',
+            paste( sprintf( "typename T%d", 1:i ), collapse = ", "),
+            paste( sprintf( "const T%d& t%d", 1:i, 1:i ), collapse = ", "),
+            paste( sprintf( "t%d", 1:i ), collapse = ", ")
+            )
 }
 
 
 content <- sprintf( '
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 4 -*-
 //
 // DataFrame_generated.h: Rcpp R/C++ interface class library -- data frames
 //
-// Copyright (C) 2010	Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2011  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -54,8 +51,8 @@ content <- sprintf( '
 %s
 
 #endif
-' , 
+' ,
 paste( sapply( 1:20, DataFrame_generator ), collapse = "\n\n" )
 )
-writeLines( content, "Rcpp/inst/include/Rcpp/DataFrame_generated.h" ) 
+writeLines( content, "Rcpp/inst/include/Rcpp/DataFrame_generated.h" )
 
