@@ -44,6 +44,10 @@ function runRInsideExamples {
     ./rinside_sample6
     ./rinside_sample7
     ./rinside_sample8
+    ./rinside_sample9
+    ./rinside_sample10
+    ./rinside_module_sample0
+    echo "DONE RInside examples"
     cd -
 }
 
