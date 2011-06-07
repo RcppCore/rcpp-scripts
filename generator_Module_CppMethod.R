@@ -30,6 +30,27 @@ txt <- sprintf( '
 		Method met ;
 	} ;
 	
+	template < typename Class, typename T, %s >
+	class CppMethod%d <Class, result<T>, %s> : public CppMethod<Class> {
+	public:
+		typedef result<T> (Class::*Method)(%s) ;
+		typedef CppMethod<Class> method_class ;
+		
+		CppMethod%d(Method m) : method_class(), met(m) {} 
+		SEXP operator()( Class* object, SEXP* args){
+		    T* ptr = (object->*met)( %s ) ;
+			return internal::make_new_object<T>(ptr) ;
+		}
+		inline int nargs(){ return %d ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return false ; }
+		inline void signature(std::string& s, const char* name ){ Rcpp::signature<result<T>,%s>(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+	
+	
 	template < typename Class, %s > class CppMethod%d<Class,void,%s> : public CppMethod<Class> {
 	public:
 		typedef void (Class::*Method)(%s) ;
@@ -48,6 +69,8 @@ txt <- sprintf( '
 		Method met ;
 	} ;
 
+	
+	
 
 
 	template < typename Class, typename OUT, %s > class const_CppMethod%d : public CppMethod<Class> {
@@ -63,6 +86,26 @@ txt <- sprintf( '
 		inline bool is_void(){ return false ; }
 		inline bool is_const(){ return true ; }
 		inline void signature(std::string& s, const char* name ){ Rcpp::signature<OUT,%s>(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+	
+	template < typename Class, typename T, %s > 
+	class const_CppMethod%d <Class, result<T>, %s> : public CppMethod<Class> {
+	public:
+		typedef result<T> (Class::*Method)(%s) const ;
+		typedef CppMethod<Class> method_class ;
+		
+		const_CppMethod%d(Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+		    T* ptr = (object->*met)( %s ) ;
+			return internal::make_new_object<T>(ptr) ;
+		}
+		inline int nargs(){ return %d ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return true ; }
+		inline void signature(std::string& s, const char* name ){ Rcpp::signature<result<T>,%s>(s, name) ; }
 		
 	private:
 		Method met ;
@@ -97,6 +140,15 @@ i,
 U,
 
 typenames,  # typename U0, ...
+i,           
+U, 
+u,          # U0 u0, ...
+i, 
+as,         # Rcpp::as<U0>( args[0] ) , ...
+i, 
+U,
+
+typenames,  # typename U0, ...
 i, 
 U, 			# U0, ...
 u,          # U0 u0, ...
@@ -115,6 +167,15 @@ i,
 U, 
 
 typenames,  # typename U0, ...
+i,           
+U, 
+u,          # U0 u0, ...
+i, 
+as,         # Rcpp::as<U0>( args[0] ) , ...
+i, 
+U,
+
+typenames,  # typename U0, ...
 i, 
 U, 			 # U0, ...
 u,          # U0 u0, ...
@@ -122,7 +183,6 @@ i,
 as, 
 i,
 U 
-
 
 )   
 
@@ -187,7 +247,29 @@ file <- sprintf(
 	private:
 		Method met ;
 	} ;
+	
+	template <typename Class, typename T> 
+	class CppMethod0< Class, result<T> > : public CppMethod<Class> {
+	public:
+		typedef result<T> (Class::*Method)(void) ;
+		typedef CppMethod<Class> method_class ;
+		typedef XPtr<T> XP ;
+		CppMethod0( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* ){
+		    T* ptr = (object->*met)( ) ;
+			return internal::make_new_object<T>(ptr) ; 
+		}
+		inline int nargs(){ return 0 ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return false ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature< result<T> >(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+	
 
+	
 	template <typename Class, typename OUT> class const_CppMethod0 : public CppMethod<Class> {
 	public:
 		typedef OUT (Class::*Method)(void) const ;
@@ -223,6 +305,27 @@ file <- sprintf(
 		Method met ;
 	} ;
 
+	template <typename Class, typename T> 
+	class const_CppMethod0< Class, result<T> > : public CppMethod<Class> {
+	public:
+		typedef result<T> (Class::*Method)(void) const ;
+		typedef CppMethod<Class> method_class ;
+		typedef XPtr<T> XP ;
+		const_CppMethod0( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* ){
+		    T* ptr = (object->*met)( ) ;
+			return internal::make_new_object<T>(ptr) ; 
+		}
+		inline int nargs(){ return 0 ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return false ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature< result<T> >(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+	
+	
 %s
 
 #endif
