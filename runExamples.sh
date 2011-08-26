@@ -31,6 +31,13 @@ function runRcppInline {
     cd -
 }
 
+
+function runSugarPerformance {
+    cd Rcpp/inst/examples/SugarPerformance
+    Rscript ./sugarBenchmarks.R
+    cd -
+}
+
 function runRInsideExamples {
     cd ../../rinside/pkg/inst/examples/standard
     make clean
@@ -46,8 +53,10 @@ function runRInsideExamples {
     ./rinside_sample8
     ./rinside_sample9
     ./rinside_sample10
+    ./rinside_sample11
     ./rinside_module_sample0
-    echo "DONE RInside examples"
+    ./rinside_callbacks0
+    echo "DONE RInside standard examples"
     cd -
 }
 
@@ -55,4 +64,5 @@ runConvolveBennchmark
 runFastLM
 runFunctionCallback
 runRcppInline
+runSugarPerformance
 runRInsideExamples
