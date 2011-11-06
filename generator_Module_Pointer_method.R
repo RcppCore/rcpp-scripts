@@ -18,8 +18,21 @@ txt <- sprintf( '
   		return *this ;
 	}
 	
-
+	template <typename OUT, %s>
+	self& const_method( const char* name_, OUT (*fun)(const Class*, %s), const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
+		AddMethod( name_, new Const_Pointer_CppMethod%d<Class,OUT,%s>( fun ), valid, docstring ) ;
+  		return *this ;
+	}
+	
+	
+	
 ',
+typenames,   # typename U0, ...
+u,           # U0 u0, ...
+i,
+i,
+U,           # U0, ...
+
 typenames,   # typename U0, ...
 u,           # U0 u0, ...
 i,
@@ -61,14 +74,19 @@ file <- sprintf(
   		return *this ;
 	}
 	
-
+	template <typename OUT>
+	self& const_method( const char* name_, OUT (*fun)(const Class*), const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new Const_Pointer_CppMethod0<Class,OUT>( fun ), valid, docstring ) ;
+  		return *this ;
+	}
+	
 %s
 
 #endif
 ', paste( sapply( 1:65, fun), collapse = "\n" ) 
 )
 
-writeLines( file, "Rcpp/inst/include/Rcpp/module/Module_generated_Pointer_method.h" )
+writeLines( file, "../pkg/Rcpp/inst/include/Rcpp/module/Module_generated_Pointer_method.h" )
 
 
 

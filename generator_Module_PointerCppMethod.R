@@ -49,6 +49,46 @@ txt <- sprintf( '
 		Method met ;
 	} ;
 
+	
+	// const
+	
+	template < typename Class, typename OUT, %s > class Const_Pointer_CppMethod%d : public CppMethod<Class> {
+	public:
+		typedef OUT (*Method)(const Class*, %s) ;
+		typedef CppMethod<Class> method_class ;
+		
+		Const_Pointer_CppMethod%d(Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+			return Rcpp::wrap( met( object, %s ) ) ;
+		}
+		inline int nargs(){ return %d ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return true ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,%s>(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+	
+	template < typename Class, %s > class Const_Pointer_CppMethod%d<Class,void,%s> : public CppMethod<Class> {
+	public:
+		typedef void (*Method)(const Class*, %s) ;
+		typedef CppMethod<Class> method_class ;
+		
+		Const_Pointer_CppMethod%d( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+			met( object, %s ) ;
+			return R_NilValue ;
+		}
+		inline int nargs(){ return %d ; }
+		inline bool is_void(){ return true ; }
+		inline bool is_const(){ return true ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type,%s>(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+
 
 ', 
 typenames,  # typename U0, ...
@@ -66,7 +106,27 @@ u,          # U0 u0, ...
 i, 
 as, 
 i,
+U, 
+
+
+# const 
+typenames,  # typename U0, ...
+i,           
+u,          # U0 u0, ...
+i, 
+as,         # Rcpp::as<U0>( args[0] ) , ...
+i,
+U, 
+
+typenames,  # typename U0, ...
+i, 
+U, 			# U0, ...
+u,          # U0 u0, ...
+i, 
+as, 
+i,
 U
+
 
 )   
 
@@ -133,14 +193,54 @@ file <- sprintf(
 	private:
 		Method met ;
 	} ;
-
+	
+	
+	
+	
+	template <typename Class, typename OUT> class Const_Pointer_CppMethod0 : public CppMethod<Class> {
+	public:
+		typedef OUT (*Method)(const Class*) ;
+		typedef CppMethod<Class> method_class ;
+		Const_Pointer_CppMethod0( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* ){
+			return Rcpp::wrap( met(object) ) ;
+		}
+		inline int nargs(){ return 0 ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return true ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+	
+	template <typename Class> class Const_Pointer_CppMethod0<Class,void> : public CppMethod<Class> {
+	public:
+		typedef void (*Method)(const Class*) ;
+		typedef CppMethod<Class> method_class ;
+		Const_Pointer_CppMethod0( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* ){
+			met( object ) ;
+			return R_NilValue ;
+		}
+		inline int nargs(){ return 0 ; }
+		inline bool is_void(){ return true ; }
+		inline bool is_const(){ return true ; }
+    
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type>(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+	
+	
 %s
 
 #endif
 ', paste( sapply( 1:65 , fun), collapse = "\n" ) 
 )
 
-writeLines( file, "Rcpp/inst/include/Rcpp/module/Module_generated_Pointer_CppMethod.h" )
+writeLines( file, "../pkg/Rcpp/inst/include/Rcpp/module/Module_generated_Pointer_CppMethod.h" )
 
 
 
