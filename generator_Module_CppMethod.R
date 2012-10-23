@@ -19,7 +19,7 @@ txt <- sprintf( '
 		
 		CppMethod%d(Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::wrap( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<Class,OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
@@ -80,7 +80,7 @@ txt <- sprintf( '
 		
 		const_CppMethod%d(Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::wrap( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<Class,OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
@@ -193,7 +193,7 @@ file <- sprintf(
 //
 // Module_generated_CppMethod.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010	Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010-2012  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -219,7 +219,7 @@ file <- sprintf(
 		typedef CppMethod<Class> method_class ;
 		CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP*){
-			return Rcpp::wrap( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<Class,OUT>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
@@ -276,7 +276,7 @@ file <- sprintf(
 		typedef CppMethod<Class> method_class ;
 		const_CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* ){
-			return Rcpp::wrap( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<Class,OUT>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }

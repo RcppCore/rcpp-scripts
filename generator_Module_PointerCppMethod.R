@@ -30,6 +30,25 @@ txt <- sprintf( '
 		Method met ;
 	} ;
 	
+	template < typename Class, typename T, %s > 
+	class Pointer_CppMethod%d<Class, result<T>, %s> : public CppMethod<Class> {
+	public:
+		typedef result<T> (*Method)(Class*, %s) ;
+		typedef CppMethod<Class> method_class ;
+		
+		Pointer_CppMethod%d(Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* args){
+			return Rcpp::wrap( met( object, %s ) ) ;
+		}
+		inline int nargs(){ return %d ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return false ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<result<T>,%s>(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+
 	template < typename Class, %s > class Pointer_CppMethod%d<Class,void,%s> : public CppMethod<Class> {
 	public:
 		typedef void (*Method)(Class*, %s) ;
@@ -93,6 +112,15 @@ txt <- sprintf( '
 ', 
 typenames,  # typename U0, ...
 i,           
+u,          # U0 u0, ...
+i, 
+as,         # Rcpp::as<U0>( args[0] ) , ...
+i,
+U, 
+
+typenames,  # typename U0, ...
+i,           
+U,
 u,          # U0 u0, ...
 i, 
 as,         # Rcpp::as<U0>( args[0] ) , ...
@@ -175,6 +203,25 @@ file <- sprintf(
 		Method met ;
 	} ;
 	
+	template <typename Class, typename T> 
+	class Pointer_CppMethod0< Class,result<T> > : public CppMethod<Class> {
+	public:
+		typedef result<T> (*Method)(Class*) ;
+		typedef CppMethod<Class> method_class ;
+		Pointer_CppMethod0( Method m) : method_class(), met(m){} 
+		SEXP operator()( Class* object, SEXP* ){
+		    T* ptr = met(object) ;
+			return internal::make_new_object<T>(ptr) ; 
+		}
+		inline int nargs(){ return 0 ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return false ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature< result<T> >(s, name) ; }
+		
+	private:
+		Method met ;
+	} ;
+
 	template <typename Class> class Pointer_CppMethod0<Class,void> : public CppMethod<Class> {
 	public:
 		typedef void (*Method)(Class*) ;
