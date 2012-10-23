@@ -19,7 +19,7 @@ txt <- sprintf( '
 		
 		CppMethod%d(Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::module_wrap<Class,OUT>( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
@@ -59,7 +59,7 @@ txt <- sprintf( '
 		
 		const_CppMethod%d(Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::module_wrap<Class,OUT>( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
@@ -160,7 +160,7 @@ file <- sprintf(
 		typedef CppMethod<Class> method_class ;
 		CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP*){
-			return Rcpp::module_wrap<Class,OUT>( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<OUT>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
@@ -195,7 +195,7 @@ file <- sprintf(
 		typedef CppMethod<Class> method_class ;
 		const_CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* ){
-			return Rcpp::module_wrap<Class,OUT>( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<OUT>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }

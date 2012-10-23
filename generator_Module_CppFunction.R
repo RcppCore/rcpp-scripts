@@ -11,7 +11,7 @@ template <typename OUT, %s> class CppFunction%d : public CppFunction {
         CppFunction%d(OUT (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
-            return Rcpp::wrap( ptr_fun( %s ) ) ;
+            return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
         }
 
         inline int nargs(){ return %d; }
@@ -49,7 +49,7 @@ class CppFunction_WithFormals%d : public CppFunction {
             CppFunction(docstring), formals(formals_), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
-            return Rcpp::wrap( ptr_fun( %s ) ) ;
+            return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
         }
 
         inline int nargs(){ return %d; }
@@ -132,7 +132,7 @@ file <- sprintf(
 //
 // Module_generated_CppFunction.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010    Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010-2012  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -157,7 +157,7 @@ class CppFunction0 : public CppFunction {
     public:
         CppFunction0(OUT (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
         SEXP operator()(SEXP*) {
-            return Rcpp::wrap( ptr_fun() ) ;
+            return Rcpp::module_wrap<OUT>( ptr_fun() ) ;
         }
 
         inline int nargs(){ return 0; }
@@ -192,7 +192,7 @@ class CppFunction_WithFormals0 : public CppFunction {
     public:
         CppFunction_WithFormals0(OUT (*fun)(void), Rcpp::List,  const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
         SEXP operator()(SEXP*) {
-            return Rcpp::wrap( ptr_fun() ) ;
+            return Rcpp::module_wrap<OUT>( ptr_fun() ) ;
         }
 
         inline int nargs(){ return 0; }
