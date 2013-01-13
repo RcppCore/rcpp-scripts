@@ -10,7 +10,7 @@ set -e
 set -u 
 
 progname=`basename $0`
-options='nh?'
+options='lnh?'
  
 usage_and_exit()
 {
@@ -19,7 +19,7 @@ usage_and_exit()
     echo "  Run build and tests for Rcpp package"
     echo ""
     echo "Options:"
-    echo "  -n       no copy, only local build tests"
+    echo "  -n,-l    no copy, only local build tests"
     echo "  -h       show this help"
     echo ""
     exit 0
@@ -30,6 +30,10 @@ while getopts "$options" i
 do 
     case "$i" in
 	n)
+	    copy=0
+	    shift
+	    ;;
+	l)
 	    copy=0
 	    shift
 	    ;;
