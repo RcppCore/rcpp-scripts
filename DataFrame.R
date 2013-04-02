@@ -8,11 +8,7 @@ DataFrame_generator <- function( i ) {
     sprintf('
 template <%s>
 static DataFrame create( %s ) {
-    try{
-        return DataFrame(internal::try_catch(::Rcpp_lcons( ::Rf_install( "data.frame"), pairlist( %s ) )));
-    } catch( eval_error& __ex__){
-        throw not_compatible("error calling the data.frame function") ;
-    }
+    return DataFrame( List::create( %s ) ) ;
 } ',
             paste( sprintf( "typename T%d", 1:i ), collapse = ", "),
             paste( sprintf( "const T%d& t%d", 1:i, 1:i ), collapse = ", "),
@@ -25,7 +21,7 @@ content <- sprintf( '// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; ind
 //
 // DataFrame_generated.h: Rcpp R/C++ interface class library -- data frames
 //
-// Copyright (C) 2010 - 2011  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2013  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -52,5 +48,5 @@ content <- sprintf( '// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; ind
 ' ,
 paste( sapply( 1:20, DataFrame_generator ), collapse = "\n\n" )
 )
-writeLines( content, "Rcpp/inst/include/Rcpp/DataFrame_generated.h" )
+writeLines( content, "Rcpp/inst/include/Rcpp/generated/DataFrame_generated.h" )
 
