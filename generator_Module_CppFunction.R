@@ -11,7 +11,9 @@ template <typename OUT, %s> class CppFunction%d : public CppFunction {
         CppFunction%d(OUT (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
+            BEGIN_RCPP
             return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
+            END_RCPP
         }
 
         inline int nargs(){ return %d; }
@@ -28,8 +30,9 @@ class CppFunction%d<void,%s> : public CppFunction {
         CppFunction%d(void (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
+            BEGIN_RCPP
             ptr_fun( %s ) ;
-            return R_NilValue ;
+            END_RCPP
         }
 
         inline int nargs(){ return %d; }
@@ -51,7 +54,9 @@ class CppFunction_WithFormals%d : public CppFunction {
             CppFunction(docstring), formals(formals_), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
+            BEGIN_RCPP
             return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
+            END_RCPP
         }
 
         inline int nargs(){ return %d; }
@@ -71,8 +76,9 @@ class CppFunction_WithFormals%d<void,%s> : public CppFunction {
             CppFunction(docstring), formals(formals_), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
+            BEGIN_RCPP
             ptr_fun( %s ) ;
-            return R_NilValue ;
+            END_RCPP
         }
 
         inline int nargs(){ return %d; }
@@ -161,7 +167,9 @@ class CppFunction0 : public CppFunction {
     public:
         CppFunction0(OUT (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
         SEXP operator()(SEXP*) {
+            BEGIN_RCPP
             return Rcpp::module_wrap<OUT>( ptr_fun() ) ;
+            END_RCPP
         }
 
         inline int nargs(){ return 0; }
@@ -179,8 +187,9 @@ class CppFunction0<void> : public CppFunction {
         CppFunction0(void (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){} ;
 
         SEXP operator()(SEXP*) {
+            BEGIN_RCPP
             ptr_fun() ;
-            return R_NilValue ;
+            END_RCPP
         }
 
         inline int nargs(){ return 0; }
@@ -198,7 +207,9 @@ class CppFunction_WithFormals0 : public CppFunction {
     public:
         CppFunction_WithFormals0(OUT (*fun)(void), Rcpp::List,  const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
         SEXP operator()(SEXP*) {
+            BEGIN_RCPP
             return Rcpp::module_wrap<OUT>( ptr_fun() ) ;
+            END_RCPP
         }
 
         inline int nargs(){ return 0; }
@@ -216,8 +227,9 @@ class CppFunction_WithFormals0<void> : public CppFunction {
         CppFunction_WithFormals0(void (*fun)(void), Rcpp::List, const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){} ;
 
         SEXP operator()(SEXP*) {
+            BEGIN_RCPP
             ptr_fun() ;
-            return R_NilValue ;
+            END_RCPP
         }
 
         inline int nargs(){ return 0; }
