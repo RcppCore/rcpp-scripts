@@ -16,10 +16,11 @@ txt <- sprintf( '
 	public:
 		typedef OUT (Class::*Method)(%s) ;
 		typedef CppMethod<Class> method_class ;
+		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
 		
 		CppMethod%d(Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::module_wrap<OUT>( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
@@ -56,10 +57,11 @@ txt <- sprintf( '
 	public:
 		typedef OUT (Class::*Method)(%s) const ;
 		typedef CppMethod<Class> method_class ;
+		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
 		
 		const_CppMethod%d(Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::module_wrap<OUT>( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
@@ -158,9 +160,11 @@ file <- sprintf(
 	public:
 		typedef OUT (Class::*Method)(void) ;
 		typedef CppMethod<Class> method_class ;
+		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
+		
 		CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP*){
-			return Rcpp::module_wrap<OUT>( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
@@ -193,9 +197,11 @@ file <- sprintf(
 	public:
 		typedef OUT (Class::*Method)(void) const ;
 		typedef CppMethod<Class> method_class ;
+		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
+		
 		const_CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* ){
-			return Rcpp::module_wrap<OUT>( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }

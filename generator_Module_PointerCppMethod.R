@@ -16,10 +16,11 @@ txt <- sprintf( '
 	public:
 		typedef OUT (*Method)(Class*, %s) ;
 		typedef CppMethod<Class> method_class ;
+		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
 		
 		Pointer_CppMethod%d(Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::module_wrap<OUT>( met( object, %s ) ) ;
+		    return Rcpp::module_wrap<CLEANED_OUT>( met( object, %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
@@ -56,10 +57,11 @@ txt <- sprintf( '
 	public:
 		typedef OUT (*Method)(const Class*, %s) ;
 		typedef CppMethod<Class> method_class ;
+		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
 		
 		Const_Pointer_CppMethod%d(Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
-			return Rcpp::module_wrap<OUT>( met( object, %s ) ) ;
+			return Rcpp::module_wrap<CLEANED_OUT>( met( object, %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
