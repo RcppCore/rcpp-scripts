@@ -22,6 +22,7 @@ __OUT__ RCPP_DECORATE(__NAME__)(%s) ;               \\
 extern "C" SEXP __NAME__(%s){                       \\
 SEXP res = R_NilValue ;                             \\
 BEGIN_RCPP                                          \\
+REprintf("  RCPP_FUNCTION_%d is deprecated, it will be removed permanently in july 2014\\n" ) ;     \\
 res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(%s) ) ; \\
 return res ;                                        \\
 END_RCPP                                            \\
@@ -33,6 +34,7 @@ __OUT__ RCPP_DECORATE(__NAME__)(%s)',
 	if( i == 0 ) "" else paste( sprintf( "#___%d", 0:(i-1)), collapse=", "),
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", "),
 	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
+	i,
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ), 
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", ")
 	)
@@ -56,6 +58,7 @@ extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){         \\
 }                                                   \\
 extern "C" SEXP __NAME__(%s){                       \\
 BEGIN_RCPP                                          \\
+REprintf("  RCPP_FUNCTION_VOID_%d is deprecated, it will be removed permanently in july 2014\\n" ) ;     \\
 RCPP_DECORATE(__NAME__)(%s) ;                       \\
 END_RCPP                                            \\
 }                                                   \\
@@ -66,49 +69,11 @@ void RCPP_DECORATE(__NAME__)(%s)',
 	i, 
 	if( i == 0 ) "" else paste( sprintf( "#___%d", 0:(i-1)), collapse=", "),
 	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
+	i, 
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ), 
 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", ")
 	)
 })
-
-# 
-# rcpp_function_nodecl <- sapply( 0:65, function(i){
-# 	txt <- sprintf( '
-# #define RCPP_FUNCTION_NODECL_%d(__OUT__,__NAME__%s)     \\
-# extern "C" SEXP __NAME__(%s){                           \\
-# SEXP res = R_NilValue ;                                 \\
-# BEGIN_RCPP                                              \\
-# 	res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(%s) ) ; \\
-# END_RCPP                                                \\
-# return res ;                                            \\
-# }                                                       \\
-# __OUT__ RCPP_DECORATE(__NAME__)(%s)', 
-# 	i,
-# 	if( i == 0 ) "" else paste( ",", paste( sprintf( "___%d", 0:(i-1)), collapse=", ") ),
-# 	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ),            
-# 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ), 
-# 	if( i == 0 ) "" else paste( sprintf( "___%d", 0:(i-1)), collapse=", ")
-# 	)
-# })
-
-
-# rcpp_wrapper <- sapply( 0:65, function(i){
-# 	txt <- sprintf( '
-# #define RCPP_WRAPPER_%d(__OUT__,__NAME__)           \\
-# extern "C" SEXP __OUT__(%s){                        \\
-# SEXP res = R_NilValue ;                             \\
-# BEGIN_RCPP                                          \\
-# res = ::Rcpp::wrap( __NAME__(%s) ) ;                \\
-# END_RCPP                                            \\
-# return res ;                                        \\
-# }
-# ', 
-# 	i,
-# 	if( i == 0 ) "" else paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ), 
-# 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1) ), collapse = ", " ) 
-# 	)
-# })
-
 
 rcpp_xp_method <- sapply( 0:65, function(i){
 	txt <- sprintf( '
@@ -125,6 +90,7 @@ extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
 }                                                           \\
 extern "C" SEXP __NAME__( SEXP xp %s ){                     \\
 BEGIN_RCPP                                                  \\
+    REprintf("  RCPP_XP_METHOD_%d is deprecated, it will be removed permanently in july 2014\\n" ) ;     \\
 	::Rcpp::XPtr< __CLASS__ > ptr(xp) ;                       \\
 	return ::Rcpp::wrap( ptr->__METHOD__( %s ) ) ;           \\
 END_RCPP                                                    \\
@@ -133,6 +99,7 @@ END_RCPP                                                    \\
 	i, 
 	i, 
 	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	i,
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
 )
 
@@ -154,6 +121,7 @@ extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
 }                                                           \\
 extern "C" SEXP __NAME__( SEXP xp %s ){                      \\
 BEGIN_RCPP                                                   \\
+	REprintf("  RCPP_XP_METHOD_CAST_%d is deprecated, it will be removed permanently in july 2014\\n" ) ;     \\
 	::Rcpp::XPtr< __CLASS__ > ptr(xp) ;                        \\
 	return ::Rcpp::wrap( __CAST__( ptr->__METHOD__( %s ) ) ) ;\\
 END_RCPP                                                     \\
@@ -162,6 +130,7 @@ END_RCPP                                                     \\
 	i, 
 	i, 
 	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	i, 
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
 )
 
@@ -184,6 +153,7 @@ extern "C" SEXP RCPP_PP_CAT(__NAME__,__rcpp_info__)( ){                 \\
 }                                                           \\
 extern "C" SEXP __NAME__( SEXP xp %s ){                            \\
 BEGIN_RCPP                                                         \\
+REprintf("  RCPP_XP_METHOD_VOID_%d is deprecated, it will be removed permanently in july 2014\\n" ) ;     \\
 ::Rcpp::XPtr< __CLASS__ > ptr(xp) ;                                  \\
 ptr->__METHOD__( %s ) ;                                            \\
 END_RCPP                                                           \\
@@ -192,6 +162,7 @@ END_RCPP                                                           \\
 	i, 
 	i, 
 	if( i == 0 ) "" else paste( ", ", paste( sprintf( "SEXP x%d", 0:(i-1) ), collapse = ", " ) ), 
+	i, 
 	if( i == 0 ) "" else paste( sprintf( "::Rcpp::internal::converter( x%d )", 0:(i-1)), collapse=", ")
 )
 
@@ -203,7 +174,7 @@ res <- c(
 // :tabSize=4:indentSize=4:noTabs=true:folding=explicit:collapseFolds=1:
 // preprocessor_generated.h: Rcpp R/C++ interface class library -- pre processor help
 //
-// Copyright (C) 2010 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -246,5 +217,5 @@ res <- c(
 #endif
 " )
 
-writeLines( res, "Rcpp/inst/include/Rcpp/preprocessor_generated.h" )
+writeLines( res, "Rcpp/inst/include/Rcpp/macros/preprocessor_generated.h" )
 
