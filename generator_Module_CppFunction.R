@@ -2,7 +2,7 @@
 fun <- function( i ){
 
     index <- (1:i)-1
-    collapse <- function(x) paste( x, collapse = ", " )
+    collapse <- function(x, sep = "," ) paste( x, collapse = sep )
 
 txt <- sprintf( '
 template <typename OUT, %s> class CppFunction%d : public CppFunction {
@@ -12,6 +12,9 @@ template <typename OUT, %s> class CppFunction%d : public CppFunction {
 
         SEXP operator()(SEXP* args) {
             BEGIN_RCPP
+            
+            %s
+            
             return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
             END_RCPP
         }
@@ -31,6 +34,8 @@ class CppFunction%d<void,%s> : public CppFunction {
 
         SEXP operator()(SEXP* args) {
             BEGIN_RCPP
+            
+            %s
             ptr_fun( %s ) ;
             END_RCPP
         }
@@ -55,6 +60,7 @@ class CppFunction_WithFormals%d : public CppFunction {
 
         SEXP operator()(SEXP* args) {
             BEGIN_RCPP
+            %s
             return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
             END_RCPP
         }
@@ -77,6 +83,7 @@ class CppFunction_WithFormals%d<void,%s> : public CppFunction {
 
         SEXP operator()(SEXP* args) {
             BEGIN_RCPP
+            %s
             ptr_fun( %s ) ;
             END_RCPP
         }
@@ -97,7 +104,8 @@ collapse( sprintf( "typename U%d", index ) ),
 i,
 i,
 collapse( sprintf( "U%d", index ) ),
-collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d >::type >( args[%d] )", index, index ) ),
+collapse( sprintf( "typename traits::input_parameter< U%d >::type x%d( args[%d] ) ;", index, index, index ), sep = "\n            " ),
+collapse( sprintf( "x%d", index ) ),
 i,
 collapse( sprintf( "U%d", index ) ),
 collapse( sprintf( "U%d", index ) ),
@@ -108,7 +116,8 @@ i,
 collapse( sprintf( "U%d", index ) ),
 i,
 collapse( sprintf( "U%d", index ) ),
-collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d>::type >( args[%d] )", index, index ) ),
+collapse( sprintf( "typename traits::input_parameter< U%d >::type x%d( args[%d] ) ;", index, index, index ), sep = "\n            " ),
+collapse( sprintf( "x%d", index ) ),
 i,
 collapse( sprintf( "U%d", index ) ),
 collapse( sprintf( "U%d", index ) ),
@@ -118,7 +127,8 @@ collapse( sprintf( "typename U%d", index ) ),
 i,
 i,
 collapse( sprintf( "U%d", index ) ),
-collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d >::type >( args[%d] )", index, index ) ),
+collapse( sprintf( "typename traits::input_parameter< U%d >::type x%d( args[%d] ) ;", index, index, index ), sep = "\n            " ),
+collapse( sprintf( "x%d", index ) ),
 i,
 collapse( sprintf( "U%d", index ) ),
 collapse( sprintf( "U%d", index ) ),
@@ -129,7 +139,8 @@ i,
 collapse( sprintf( "U%d", index ) ),
 i,
 collapse( sprintf( "U%d", index ) ),
-collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d>::type >( args[%d] )", index, index ) ),
+collapse( sprintf( "typename traits::input_parameter< U%d >::type x%d( args[%d] ) ;", index, index, index ), sep = "\n            " ),
+collapse( sprintf( "x%d", index ) ),
 i,
 collapse( sprintf( "U%d", index ) ),
 collapse( sprintf( "U%d", index ) )
@@ -142,7 +153,7 @@ file <- sprintf(
 //
 // Module_generated_CppFunction.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010-2012  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010-2013  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
