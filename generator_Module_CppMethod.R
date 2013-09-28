@@ -3,11 +3,12 @@
 fun <- function( i ){
 
 	index <- (1:i)-1
-	collapse <- function(x) paste( x, collapse = ", " )
+	collapse <- function(x, collapse = ", " ) paste( x, collapse = collapse )
 	
 	typenames <- collapse( sprintf( "typename U%d", index ) )
 	u <- collapse( sprintf( "U%d u%d", index, index ) )
-    as <- collapse( sprintf( "Rcpp::as< typename Rcpp::traits::remove_const_and_reference< U%d >::type >( args[%d] )", index, index ) )  
+    input_parameter <- collapse( sprintf( "typename Rcpp::traits::input_parameter< U%d >::type x%d( args[%d] ) ;", index, index, index ), collapse = "\n" )  
+    x <- collapse( sprintf( "x%d", index ) )
     U <- collapse( sprintf( "U%d", index ) )
        
 txt <- sprintf( '
@@ -20,6 +21,7 @@ txt <- sprintf( '
 		
 		CppMethod%d(Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
+		    %s
 			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
@@ -38,6 +40,7 @@ txt <- sprintf( '
 		
 		CppMethod%d( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
+			%s
 			(object->*met)( %s ) ;
 			return R_NilValue ;
 		}
@@ -61,6 +64,7 @@ txt <- sprintf( '
 		
 		const_CppMethod%d(Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
+			%s
 			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
@@ -79,6 +83,7 @@ txt <- sprintf( '
 		
 		const_CppMethod%d( Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
+			%s
 			(object->*met)( %s ) ;
 			return R_NilValue ;
 		}
@@ -95,8 +100,9 @@ txt <- sprintf( '
 typenames,  # typename U0, ...
 i,           
 u,          # U0 u0, ...
-i, 
-as,         # Rcpp::as<U0>( args[0] ) , ...
+i,
+input_parameter,
+x,         # Rcpp::as<U0>( args[0] ) , ...
 i, 
 U,
 
@@ -105,7 +111,8 @@ i,
 U, 			# U0, ...
 u,          # U0 u0, ...
 i,
-as, 
+input_parameter,
+x, 
 i, 
 U,
 
@@ -114,7 +121,8 @@ typenames,  # typename U0, ...
 i,           
 u,          # U0 u0, ...
 i, 
-as,         # Rcpp::as<U0>( args[0] ) , ...
+input_parameter,
+x,         # Rcpp::as<U0>( args[0] ) , ...
 i, 
 U, 
 
@@ -123,7 +131,8 @@ i,
 U, 			 # U0, ...
 u,          # U0 u0, ...
 i, 
-as, 
+input_parameter,
+x, 
 i,
 U 
 
@@ -136,7 +145,7 @@ file <- sprintf(
 //
 // Module_generated_CppMethod.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010-2012  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010-2013  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //

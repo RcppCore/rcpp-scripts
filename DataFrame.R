@@ -8,7 +8,7 @@ DataFrame_generator <- function( i ) {
     sprintf('
 template <%s>
 static DataFrame create( %s ) {
-    return DataFrame( List::create( %s ) ) ;
+    return DataFrame::from_list( List::create( %s ) ) ;
 } ',
             paste( sprintf( "typename T%d", 1:i ), collapse = ", "),
             paste( sprintf( "const T%d& t%d", 1:i, 1:i ), collapse = ", "),
