@@ -45,7 +45,12 @@ if [ -x /usr/bin/doxygen ]; then
     cd ${cwd}
 
     if [ -d ~/www/code/rcpp/ ]; then
-	cp -vax Rcpp/inst/doc/Rcpp-*.pdf ~/www/code/rcpp
+        cd ~/www/code/rcpp/
+        tarball=`ls -1tr Rcpp_*.tar.gz|tail -1`
+    	#cp -vax Rcpp/inst/doc/Rcpp-*.pdf ~/www/code/rcpp
+        tar xvzf ${tarball} "Rcpp/inst/doc/"
+        mv -v Rcpp/inst/doc/*.pdf .
+        rm -rf Rcpp/
     fi
     cd ${cwd}
 
