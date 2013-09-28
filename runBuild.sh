@@ -57,8 +57,8 @@ export RCPP_CXX0X="no"
 
 export RunAllRcppTests="yes"
 
-## remove old pdf vignettes and make fresh ones
-cd Rcpp/inst/doc && make pdfclean && make pdfall && cd - 
+## remove old pdf vignettes and make fresh ones -- no longer needed with vignette scheme
+## cd Rcpp/inst/doc && make pdfclean && make pdfall && cd - 
 
 R CMD build --force Rcpp
 
