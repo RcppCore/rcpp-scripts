@@ -9,13 +9,17 @@ AP <- available.packages(contrib.url("http://cran.r-project.org"),filter=list())
 rcppset <- sort(unname(AP[unique(c(grep("Rcpp", as.character(AP[,"Depends"])),
                                    grep("Rcpp", as.character(AP[,"LinkingTo"])),
                                    grep("Rcpp", as.character(AP[,"Imports"])))),"Package"]))
-if (grep("transnet", rcppset)) {
-    print( rcppset[ ! grepl("transnet", rcppset) ])
-} else {
-    print( rcppset )
+if (grep("transnet", rcppset)) {        ## not really an Rcpp user
+    rcppset <- rcppset[ ! grepl("transnet", rcppset) ]
 }
+#if (grep("BioGeoBears", rcppset)) {     ## indirect match, no need to test
+#    rcppset <- rcppset[ ! grepl("BioGeoBears", rcppset) ]
+#}
+if (grep("quadrupen", rcppset)) {       ## takes hours, skipping
+    rcppset <- rcppset[ ! grepl("quadrupen", rcppset) ]
+}
+print( rcppset )
 
-rcppset <- rcppset
 res <- data.frame(pkg=rcppset, res=NA)
 
 #for (pi in 1:nrow(res)) {
