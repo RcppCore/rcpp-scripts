@@ -1,7 +1,10 @@
 #!/usr/bin/r
 
 cat("Started at ", format(Sys.time()), "\n")
-library(parallel)
+#library(parallel)
+
+## for the borked src/Makevars of ExactNumCI
+Sys.setenv("BOOSTLIB"="/usr/include")
 
 setwd("/tmp/RcppDepends")
 
@@ -12,9 +15,9 @@ rcppset <- sort(unname(AP[unique(c(grep("Rcpp", as.character(AP[,"Depends"])),
 if (grep("transnet", rcppset)) {        ## not really an Rcpp user
     rcppset <- rcppset[ ! grepl("transnet", rcppset) ]
 }
-#if (grep("BioGeoBears", rcppset)) {     ## indirect match, no need to test
-#    rcppset <- rcppset[ ! grepl("BioGeoBears", rcppset) ]
-#}
+if (grep("BioGeoBEARS", rcppset)) {     ## indirect match, no need to test
+    rcppset <- rcppset[ ! grepl("BioGeoBEARS", rcppset) ]
+}
 if (grep("quadrupen", rcppset)) {       ## takes hours, skipping
     rcppset <- rcppset[ ! grepl("quadrupen", rcppset) ]
 }
@@ -25,7 +28,6 @@ res <- data.frame(pkg=rcppset, res=NA)
 #for (pi in 1:nrow(res)) {
 #lres <- mclapply(1:nrow(res), mc.cores = 4, FUN=function(pi) {
 lres <- lapply(1:nrow(res), FUN=function(pi) {
-
     p <- rcppset[pi]
     i <- which(AP[,"Package"]==p)
     pkg <- paste(AP[i,"Package"], "_", AP[i,"Version"], ".tar.gz", sep="")
