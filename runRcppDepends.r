@@ -3,6 +3,10 @@
 cat("Started at ", format(Sys.time()), "\n")
 #library(parallel)
 
+## use a test-local directory, install Rcpp, RcppArmadillo, ... there
+## this will work for sub-shells such as the ones started by system() below
+Sys.setenv("R_LIBS_USER"="/tmp/RcppDepends/lib")
+
 ## for the borked src/Makevars of ExactNumCI
 Sys.setenv("BOOSTLIB"="/usr/include")
 
@@ -12,15 +16,19 @@ AP <- available.packages(contrib.url("http://cran.r-project.org"),filter=list())
 rcppset <- sort(unname(AP[unique(c(grep("Rcpp", as.character(AP[,"Depends"])),
                                    grep("Rcpp", as.character(AP[,"LinkingTo"])),
                                    grep("Rcpp", as.character(AP[,"Imports"])))),"Package"]))
-if (grep("transnet", rcppset)) {        ## not really an Rcpp user
-    rcppset <- rcppset[ ! grepl("transnet", rcppset) ]
-}
+#if (grep("transnet", rcppset)) {        ## not really an Rcpp user
+#    rcppset <- rcppset[ ! grepl("transnet", rcppset) ]
+#}
 if (grep("BioGeoBEARS", rcppset)) {     ## indirect match, no need to test
     rcppset <- rcppset[ ! grepl("BioGeoBEARS", rcppset) ]
 }
 if (grep("quadrupen", rcppset)) {       ## takes hours, skipping
     rcppset <- rcppset[ ! grepl("quadrupen", rcppset) ]
 }
+if (grep("roxygen2", rcppset)) {       ## seems to hang for reasons that are unclear
+    rcppset <- rcppset[ ! grepl("roxygen2", rcppset) ]
+}
+
 print( rcppset )
 
 res <- data.frame(pkg=rcppset, res=NA)
