@@ -12,15 +12,15 @@ fun <- function( i ){
     
 txt <- sprintf( '
 
-	template <typename OUT, %s>
-	self& method( const char* name_, OUT (*fun)(Class*, %s), const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
-		AddMethod( name_, new Pointer_CppMethod%d<Class,OUT,%s>( fun ), valid, docstring ) ;
+	template <typename RESULT_TYPE, %s>
+	self& method( const char* name_, RESULT_TYPE (*fun)(Class*, %s), const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
+		AddMethod( name_, new Pointer_CppMethod%d<Class,RESULT_TYPE,%s>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 	
-	template <typename OUT, %s>
-	self& const_method( const char* name_, OUT (*fun)(const Class*, %s), const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
-		AddMethod( name_, new Const_Pointer_CppMethod%d<Class,OUT,%s>( fun ), valid, docstring ) ;
+	template <typename RESULT_TYPE, %s>
+	self& const_method( const char* name_, RESULT_TYPE (*fun)(const Class*, %s), const char* docstring = 0, ValidMethod valid = &yes_arity<%d> ){
+		AddMethod( name_, new Const_Pointer_CppMethod%d<Class,RESULT_TYPE,%s>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 	
@@ -68,15 +68,15 @@ file <- sprintf(
 #ifndef Rcpp_Module_generated_Pointer_method_h
 #define Rcpp_Module_generated_Pointer_method_h
 
-	template <typename OUT>
-	self& method( const char* name_, OUT (*fun)(Class*), const char* docstring = 0, ValidMethod valid = &yes ){
-		AddMethod( name_, new Pointer_CppMethod0<Class,OUT>( fun ), valid, docstring ) ;
+	template <typename RESULT_TYPE>
+	self& method( const char* name_, RESULT_TYPE (*fun)(Class*), const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new Pointer_CppMethod0<Class,RESULT_TYPE>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 	
-	template <typename OUT>
-	self& const_method( const char* name_, OUT (*fun)(const Class*), const char* docstring = 0, ValidMethod valid = &yes ){
-		AddMethod( name_, new Const_Pointer_CppMethod0<Class,OUT>( fun ), valid, docstring ) ;
+	template <typename RESULT_TYPE>
+	self& const_method( const char* name_, RESULT_TYPE (*fun)(const Class*), const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new Const_Pointer_CppMethod0<Class,RESULT_TYPE>( fun ), valid, docstring ) ;
   		return *this ;
 	}
 	

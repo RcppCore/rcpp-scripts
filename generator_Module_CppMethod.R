@@ -13,21 +13,21 @@ fun <- function( i ){
        
 txt <- sprintf( '
 
-	template < typename Class, typename OUT, %s > class CppMethod%d : public CppMethod<Class> {
+	template < typename Class, typename RESULT_TYPE, %s > class CppMethod%d : public CppMethod<Class> {
 	public:
-		typedef OUT (Class::*Method)(%s) ;
+		typedef RESULT_TYPE (Class::*Method)(%s) ;
 		typedef CppMethod<Class> method_class ;
-		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
+		typedef typename Rcpp::traits::remove_const_and_reference< RESULT_TYPE >::type CLEANED_RESULT_TYPE ;
 		
 		CppMethod%d(Method m) : method_class(), met(m) {} 
 		SEXP operator()( Class* object, SEXP* args){
 		    %s
-			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<CLEANED_RESULT_TYPE>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
 		inline bool is_const(){ return false ; }
-		inline void signature(std::string& s, const char* name ){ Rcpp::signature<OUT,%s>(s, name) ; }
+		inline void signature(std::string& s, const char* name ){ Rcpp::signature<RESULT_TYPE,%s>(s, name) ; }
 		
 	private:
 		Method met ;
@@ -56,21 +56,21 @@ txt <- sprintf( '
 	
 
 
-	template < typename Class, typename OUT, %s > class const_CppMethod%d : public CppMethod<Class> {
+	template < typename Class, typename RESULT_TYPE, %s > class const_CppMethod%d : public CppMethod<Class> {
 	public:
-		typedef OUT (Class::*Method)(%s) const ;
+		typedef RESULT_TYPE (Class::*Method)(%s) const ;
 		typedef CppMethod<Class> method_class ;
-		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
+		typedef typename Rcpp::traits::remove_const_and_reference< RESULT_TYPE >::type CLEANED_RESULT_TYPE ;
 		
 		const_CppMethod%d(Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
 			%s
-			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( %s ) ) ;
+			return Rcpp::module_wrap<CLEANED_RESULT_TYPE>( (object->*met)( %s ) ) ;
 		}
 		inline int nargs(){ return %d ; }
 		inline bool is_void(){ return false ; }
 		inline bool is_const(){ return true ; }
-		inline void signature(std::string& s, const char* name ){ Rcpp::signature<OUT,%s>(s, name) ; }
+		inline void signature(std::string& s, const char* name ){ Rcpp::signature<RESULT_TYPE,%s>(s, name) ; }
 		
 	private:
 		Method met ;
@@ -145,7 +145,7 @@ file <- sprintf(
 //
 // Module_generated_CppMethod.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010-2013  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -165,20 +165,20 @@ file <- sprintf(
 #ifndef Rcpp_Module_generated_CppMethod_h
 #define Rcpp_Module_generated_CppMethod_h
 
-	template <typename Class, typename OUT> class CppMethod0 : public CppMethod<Class> {
+	template <typename Class, typename RESULT_TYPE> class CppMethod0 : public CppMethod<Class> {
 	public:
-		typedef OUT (Class::*Method)(void) ;
+		typedef RESULT_TYPE (Class::*Method)(void) ;
 		typedef CppMethod<Class> method_class ;
-		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
+		typedef typename Rcpp::traits::remove_const_and_reference< RESULT_TYPE >::type CLEANED_RESULT_TYPE ;
 		
 		CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP*){
-			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<CLEANED_RESULT_TYPE>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
 		inline bool is_const(){ return false ; }
-		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE>(s, name) ; }
 		
 	private:
 		Method met ;
@@ -202,20 +202,20 @@ file <- sprintf(
 		Method met ;
 	} ;
 	
-	template <typename Class, typename OUT> class const_CppMethod0 : public CppMethod<Class> {
+	template <typename Class, typename RESULT_TYPE> class const_CppMethod0 : public CppMethod<Class> {
 	public:
-		typedef OUT (Class::*Method)(void) const ;
+		typedef RESULT_TYPE (Class::*Method)(void) const ;
 		typedef CppMethod<Class> method_class ;
-		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
+		typedef typename Rcpp::traits::remove_const_and_reference< RESULT_TYPE >::type CLEANED_RESULT_TYPE ;
 		
 		const_CppMethod0( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* ){
-			return Rcpp::module_wrap<CLEANED_OUT>( (object->*met)( ) ) ;
+			return Rcpp::module_wrap<CLEANED_RESULT_TYPE>( (object->*met)( ) ) ;
 		}
 		inline int nargs(){ return 0 ; }
 		inline bool is_void(){ return false ; }
 		inline bool is_const(){ return true ; }
-		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE>(s, name) ; }
 		
 	private:
 		Method met ;

@@ -5,26 +5,26 @@ fun <- function( i ){
     collapse <- function(x, sep = "," ) paste( x, collapse = sep )
 
 txt <- sprintf( '
-template <typename OUT, %s> class CppFunction%d : public CppFunction {
+template <typename RESULT_TYPE, %s> class CppFunction%d : public CppFunction {
     public:
 
-        CppFunction%d(OUT (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun){}
+        CppFunction%d(RESULT_TYPE (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
             BEGIN_RCPP
             
             %s
             
-            return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
+            return Rcpp::module_wrap<RESULT_TYPE>( ptr_fun( %s ) ) ;
             END_RCPP
         }
 
         inline int nargs(){ return %d; }
-        inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,%s>(s, name) ; }
+        inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE,%s>(s, name) ; }
         inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
         
     private:
-        OUT (*ptr_fun)(%s) ;
+        RESULT_TYPE (*ptr_fun)(%s) ;
 } ;
 
 template <%s>
@@ -51,28 +51,28 @@ class CppFunction%d<void,%s> : public CppFunction {
 
 
 
-template <typename OUT, %s>
+template <typename RESULT_TYPE, %s>
 class CppFunction_WithFormals%d : public CppFunction {
     public:
 
-        CppFunction_WithFormals%d(OUT (*fun)(%s) , Rcpp::List formals_, const char* docstring = 0) :
+        CppFunction_WithFormals%d(RESULT_TYPE (*fun)(%s) , Rcpp::List formals_, const char* docstring = 0) :
             CppFunction(docstring), formals(formals_), ptr_fun(fun){}
 
         SEXP operator()(SEXP* args) {
             BEGIN_RCPP
             %s
-            return Rcpp::module_wrap<OUT>( ptr_fun( %s ) ) ;
+            return Rcpp::module_wrap<RESULT_TYPE>( ptr_fun( %s ) ) ;
             END_RCPP
         }
 
         inline int nargs(){ return %d; }
-        inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,%s>(s, name) ; }
+        inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE,%s>(s, name) ; }
         SEXP get_formals(){ return formals; }
         inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
         
     private:
         Rcpp::List formals ;
-        OUT (*ptr_fun)(%s) ;
+        RESULT_TYPE (*ptr_fun)(%s) ;
 } ;
 
 template <%s>
@@ -153,7 +153,7 @@ file <- sprintf(
 //
 // Module_generated_CppFunction.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010-2013  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -173,22 +173,22 @@ file <- sprintf(
 #ifndef Rcpp_Module_generated_CppFunction_h
 #define Rcpp_Module_generated_CppFunction_h
 
-template <typename OUT>
+template <typename RESULT_TYPE>
 class CppFunction0 : public CppFunction {
     public:
-        CppFunction0(OUT (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
+        CppFunction0(RESULT_TYPE (*fun)(void), const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
         SEXP operator()(SEXP*) {
             BEGIN_RCPP
-            return Rcpp::module_wrap<OUT>( ptr_fun() ) ;
+            return Rcpp::module_wrap<RESULT_TYPE>( ptr_fun() ) ;
             END_RCPP
         }
 
         inline int nargs(){ return 0; }
-        inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
+        inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE>(s, name) ; }
         inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
         
     private:
-        OUT (*ptr_fun)(void) ;
+        RESULT_TYPE (*ptr_fun)(void) ;
 } ;
 
 
@@ -213,22 +213,22 @@ class CppFunction0<void> : public CppFunction {
 } ;
 
 
-template <typename OUT>
+template <typename RESULT_TYPE>
 class CppFunction_WithFormals0 : public CppFunction {
     public:
-        CppFunction_WithFormals0(OUT (*fun)(void), Rcpp::List,  const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
+        CppFunction_WithFormals0(RESULT_TYPE (*fun)(void), Rcpp::List,  const char* docstring = 0 ) : CppFunction(docstring), ptr_fun(fun){}
         SEXP operator()(SEXP*) {
             BEGIN_RCPP
-            return Rcpp::module_wrap<OUT>( ptr_fun() ) ;
+            return Rcpp::module_wrap<RESULT_TYPE>( ptr_fun() ) ;
             END_RCPP
         }
 
         inline int nargs(){ return 0; }
-        inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT>(s, name) ; }
+        inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE>(s, name) ; }
         inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
         
     private:
-        OUT (*ptr_fun)(void) ;
+        RESULT_TYPE (*ptr_fun)(void) ;
 } ;
 
 

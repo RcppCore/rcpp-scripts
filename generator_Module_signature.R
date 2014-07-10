@@ -12,10 +12,10 @@ fun <- function( i ){
     
 txt <- sprintf( '
 
-template <typename OUT,%s>
+template <typename RESULT_TYPE,%s>
 inline void signature(std::string& s, const char* name){
     s.clear() ;
-    s += get_return_type<OUT>() ;
+    s += get_return_type<RESULT_TYPE>() ;
     s += " " ;
     s += name ;
     s += "(" ;
@@ -37,7 +37,7 @@ file <- sprintf(
 //
 // Module_generated_get_signature.h: Rcpp R/C++ interface class library --
 //
-// Copyright (C) 2010	Doug Bates, Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2014  Doug Bates, Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -57,20 +57,20 @@ file <- sprintf(
 #ifndef Rcpp_Module_generated_get_signature_h
 #define Rcpp_Module_generated_get_signature_h
 
-template <typename OUT>
+template <typename RESULT_TYPE>
 inline void signature(std::string& s, const char* name){
     s.clear() ;
-    s += get_return_type<OUT>() ;
+    s += get_return_type<RESULT_TYPE>() ;
     s += " " ;
     s += name ;
     s += "()" ;
 }
 
 
-template <typename OUT,typename U0>
+template <typename RESULT_TYPE,typename U0>
 inline void signature(std::string& s, const char* name){
     s.clear() ;
-    s += get_return_type<OUT>() ;
+    s += get_return_type<RESULT_TYPE>() ;
     s += " " ;
     s += name ;
     s += "(" ;

@@ -6,19 +6,19 @@ fun <- function( i ){
     U <- if( i == 0 ) "" else paste( ",", paste( sprintf( "U%d", (1:i)-1 ), collapse = ", " ) , sep = "" )
     
 txt <- sprintf( '
-template <typename OUT%s>                                                                   
-void function( const char* name_,  OUT (*fun)(%s), const char* docstring = 0){
+template <typename RESULT_TYPE%s>                                                                   
+void function( const char* name_,  RESULT_TYPE (*fun)(%s), const char* docstring = 0){
   Rcpp::Module* scope = ::getCurrentScope() ;
   if( scope ){
-    scope->Add( name_, new CppFunction%d<OUT%s>( fun, docstring ) ) ;
+    scope->Add( name_, new CppFunction%d<RESULT_TYPE%s>( fun, docstring ) ) ;
   }
 }
 
-template <typename OUT%s>                                                                   
-void function( const char* name_,  OUT (*fun)(%s), Rcpp::List formals, const char* docstring = 0){
+template <typename RESULT_TYPE%s>                                                                   
+void function( const char* name_,  RESULT_TYPE (*fun)(%s), Rcpp::List formals, const char* docstring = 0){
   Rcpp::Module* scope = ::getCurrentScope() ;
   if( scope ){
-    scope->Add( name_, new CppFunction_WithFormals%d<OUT%s>( fun, formals, docstring ) ) ;
+    scope->Add( name_, new CppFunction_WithFormals%d<RESULT_TYPE%s>( fun, formals, docstring ) ) ;
   }
 }
 ', 
@@ -40,7 +40,7 @@ file <- sprintf(
 //
 // Module_generated_function.h: Rcpp R/C++ interface class library -- Rcpp modules
 //
-// Copyright (C) 2010	Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //

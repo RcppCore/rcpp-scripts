@@ -3,9 +3,9 @@ fun <- function( i ){
 	
 txt <- sprintf( '
 
-	template <typename OUT%s>
-	InternalFunction( OUT (*fun)(%s) ) : RObject() {
-		set( XPtr< CppFunction%d<OUT%s> >( new CppFunction%d<OUT%s>( fun ), false ) ) ;
+	template <typename RESULT_TYPE%s>
+	InternalFunction( RESULT_TYPE (*fun)(%s) ) : RObject() {
+		set( XPtr< CppFunction%d<RESULT_TYPE%s> >( new CppFunction%d<RESULT_TYPE%s>( fun ), false ) ) ;
 	}
 
 ', 
@@ -24,7 +24,7 @@ file <- sprintf(
 //           
 // InternalFunction__ctors.h: Rcpp R/C++ interface class library -- generated helper code for InternalFunction.h
 //
-// Copyright (C) 2010	Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
