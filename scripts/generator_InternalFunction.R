@@ -1,28 +1,32 @@
+#!/usr/bin/Rscript
+#
+# Generator for inst/include/Rcpp/generated/InternalFunction__ctors.h
+#
+# Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 
-fun <- function( i ){
-	
-txt <- sprintf( '
+fun <- function(i) {
+        
+    txt <- sprintf( '
 
-	template <typename RESULT_TYPE%s>
-	InternalFunction( RESULT_TYPE (*fun)(%s) ) : RObject() {
-		set( XPtr< CppFunction%d<RESULT_TYPE%s> >( new CppFunction%d<RESULT_TYPE%s>( fun ), false ) ) ;
-	}
-
+    template <typename RESULT_TYPE%s>
+    InternalFunction(RESULT_TYPE (*fun)(%s)) : RObject() {
+        set(XPtr<CppFunction%d<RESULT_TYPE%s> >(new CppFunction%d<RESULT_TYPE%s>(fun), false));
+    }
 ', 
-if( i == 0 ) "" else paste( ",", paste( sprintf( "typename U%d", (1:i)-1 ), collapse = ", " ) , sep = "" ), 
-if( i == 0 ) "void" else paste( sprintf( "U%d u%d", (1:i)-1, (1:i)-1 ), collapse = ", " ), 
-i, 
-if( i == 0 ) "" else paste( ",", paste( sprintf( "U%d", (1:i)-1 ), collapse = ", " ) , sep = "" ), 
-i, 
-if( i == 0 ) "" else paste( ",", paste( sprintf( "U%d", (1:i)-1 ), collapse = ", " ) , sep = "" )
-)
-	
+                   if (i == 0) ""     else paste0(",", paste(sprintf("typename U%d", (1:i)-1), collapse = ", ")), 
+                   if (i == 0) "void" else paste(sprintf("U%d u%d", (1:i)-1, (1:i)-1 ), collapse = ", "), 
+                   i, 
+                   if (i == 0) ""     else paste0(",", paste(sprintf("U%d", (1:i)-1), collapse = ", ")), 
+                   i, 
+                   if (i == 0) ""     else paste0(",", paste(sprintf("U%d", (1:i)-1), collapse = ", "))
+                   )
 }
 
 file <- sprintf( 
-'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
-//           
-// InternalFunction__ctors.h: Rcpp R/C++ interface class library -- generated helper code for InternalFunction.h
+'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
+//
+// InternalFunction__ctors.h -- generated helper code for InternalFunction.h
+//                              see rcpp-scripts repo for generator script
 //
 // Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
@@ -47,10 +51,11 @@ file <- sprintf(
 %s
 
 #endif
-', paste( sapply( 0:65, fun), collapse = "\n" ) 
+', paste(sapply(0:65, fun), collapse = "\n") 
 )
 
-writeLines( file, "Rcpp/inst/include/Rcpp/generated/InternalFunction__ctors.h" )
+stopifnot(file.exists("inst/include/Rcpp/generated/"))
+writeLines(file, "inst/include/Rcpp/generated/InternalFunction__ctors.h")
 
 
 
