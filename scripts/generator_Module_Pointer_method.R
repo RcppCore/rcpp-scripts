@@ -29,8 +29,7 @@ self& const_method(const char* name_, RESULT_TYPE (*fun)(const Class*, %s),
                    const char* docstring = 0, ValidMethod valid = &yes_arity<%d>) {
     AddMethod(name_, new Const_Pointer_CppMethod%d<Class,RESULT_TYPE,%s>(fun), valid, docstring);
     return *this ;
-}
-	           ',
+}',
                    typenames,   # typename U0, ...
                    u,           # U0 u0, ...
                    i,
@@ -77,14 +76,14 @@ self& method(const char* name_, RESULT_TYPE (*fun)(Class*),
     AddMethod(name_, new Pointer_CppMethod0<Class,RESULT_TYPE>(fun), valid, docstring);
     return *this;
 }
-	
+
 template <typename RESULT_TYPE>
 self& const_method(const char* name_, RESULT_TYPE (*fun)(const Class*),
                    const char* docstring = 0, ValidMethod valid = &yes ){
     AddMethod(name_, new Const_Pointer_CppMethod0<Class,RESULT_TYPE>( fun ), valid, docstring);
     return *this;
 }
-	
+
 %s
 
 #endif
@@ -93,8 +92,3 @@ self& const_method(const char* name_, RESULT_TYPE (*fun)(const Class*),
 
 stopifnot(file.exists("inst/include/Rcpp/module/"))
 writeLines( file, "inst/include/Rcpp/module/Module_generated_Pointer_method.h")
-
-
-
-
-
