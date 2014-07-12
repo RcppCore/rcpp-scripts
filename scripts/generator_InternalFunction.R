@@ -9,7 +9,7 @@ fun <- function(i) {
     txt <- sprintf( '
 
     template <typename RESULT_TYPE%s>
-    InternalFunction(RESULT_TYPE (*fun)(%s)) : RObject() {
+    InternalFunction_Impl(RESULT_TYPE (*fun)(%s)) : RObject() {
         set(XPtr<CppFunction%d<RESULT_TYPE%s> >(new CppFunction%d<RESULT_TYPE%s>(fun), false));
     }
 ', 
@@ -25,8 +25,8 @@ fun <- function(i) {
 file <- sprintf( 
 '// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// InternalFunction__ctors.h -- generated helper code for InternalFunction.h
-//                              see rcpp-scripts repo for generator script
+// InternalFunction_Impl_ctors.h -- generated helper code for InternalFunction__ctors.h
+//                                  see rcpp-scripts repo for generator script
 //
 // Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
@@ -45,8 +45,8 @@ file <- sprintf(
 // You should have received a copy of the GNU General Public License
 // along with Rcpp.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp__generated__InternalFunction_ctors_h
-#define Rcpp__generated__InternalFunction_ctors_h
+#ifndef Rcpp__generated__InternalFunction_Impl_ctors_h
+#define Rcpp__generated__InternalFunction_Impl_ctors_h
 
 %s
 
