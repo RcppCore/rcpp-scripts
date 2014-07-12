@@ -16,7 +16,7 @@ fun <- function(i) {
     x <- collapse(sprintf( "x%d", index))
     U <- collapse(sprintf( "U%d", index))
        
-txt <- sprintf('
+    txt <- sprintf('
 
 template <typename Class, typename RESULT_TYPE, %s> class CppMethod%d : public CppMethod<Class> {
 public:
@@ -96,50 +96,46 @@ public:
 
 private:
     Method met ;
-} ;
-	
-', 
-typenames,  # typename U0, ...
-i,           
-u,          # U0 u0, ...
-i,
-input_parameter,
-x,         # Rcpp::as<U0>( args[0] ) , ...
-i, 
-U,
+};', 
+    typenames,  # typename U0, ...
+    i,           
+    u,          # U0 u0, ...
+    i,
+    input_parameter,
+    x,         # Rcpp::as<U0>( args[0] ) , ...
+    i, 
+    U,
 
-typenames,  # typename U0, ...
-i, 
-U, 			# U0, ...
-u,          # U0 u0, ...
-i,
-input_parameter,
-x, 
-i, 
-U,
+    typenames,  # typename U0, ...
+    i, 
+    U, 			# U0, ...
+    u,          # U0 u0, ...
+    i,
+    input_parameter,
+    x, 
+    i, 
+    U,
 
 
-typenames,  # typename U0, ...
-i,           
-u,          # U0 u0, ...
-i, 
-input_parameter,
-x,         # Rcpp::as<U0>( args[0] ) , ...
-i, 
-U, 
+    typenames,  # typename U0, ...
+    i,           
+    u,          # U0 u0, ...
+    i, 
+    input_parameter,
+    x,         # Rcpp::as<U0>( args[0] ) , ...
+    i, 
+    U, 
 
-typenames,  # typename U0, ...
-i, 
-U, 			 # U0, ...
-u,          # U0 u0, ...
-i, 
-input_parameter,
-x, 
-i,
-U 
-
-)   
-
+    typenames,  # typename U0, ...
+    i, 
+    U, 			 # U0, ...
+    u,          # U0 u0, ...
+    i, 
+    input_parameter,
+    x, 
+    i,
+    U 
+    )   
 }
 
 file <- sprintf( 
