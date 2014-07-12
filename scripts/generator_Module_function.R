@@ -11,7 +11,7 @@ fun <- function(i) {
     U <- if( i == 0 ) "" else paste0(",", paste(sprintf( "U%d", (1:i)-1), collapse = ", "))
     
     txt <- sprintf('
-template <typename RESULT_TYPE%s>                                                                   
+template <typename RESULT_TYPE%s>
 void function(const char* name_,  RESULT_TYPE (*fun)(%s), const char* docstring = 0) {
     Rcpp::Module* scope = ::getCurrentScope();
     if (scope) {
@@ -19,9 +19,9 @@ void function(const char* name_,  RESULT_TYPE (*fun)(%s), const char* docstring 
     }
 }
 
-template <typename RESULT_TYPE%s>                                                                   
+template <typename RESULT_TYPE%s>
 void function(const char* name_,  RESULT_TYPE (*fun)(%s), Rcpp::List formals, const char* docstring = 0) {
-    Rcpp::Module* scope = ::getCurrentScope() ;
+    Rcpp::Module* scope = ::getCurrentScope();
     if (scope) {
        scope->Add(name_, new CppFunction_WithFormals%d<RESULT_TYPE%s>(fun, formals, docstring));
     }
