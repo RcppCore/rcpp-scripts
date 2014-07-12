@@ -99,51 +99,51 @@ public:
 private:
     Method met;
 };
-', 
-    typenames,  # typename U0, ...
-    i,           
-    u,          # U0 u0, ...
-    i, 
-    input_parameter,
-    x,
-    i,
-    U, 
-
-    typenames,  # typename U0, ...
-    i, 
-    U, 			# U0, ...
-    u,          # U0 u0, ...
-    i, 
-    input_parameter,
-    x,
-    i,
-    U, 
-
-
-    ## const 
-    typenames,  # typename U0, ...
-    i,           
-    u,          # U0 u0, ...
-    i, 
-    input_parameter,
-    x,
-    i,
-    U, 
-
-    typenames,  # typename U0, ...
-    i, 
-    U, 			# U0, ...
-    u,          # U0 u0, ...
-    i, 
-    input_parameter,
-    x,
-    i,
-    U
-    )   
+                   ', 
+                   typenames,  # typename U0, ...
+                   i,           
+                   u,          # U0 u0, ...
+                   i, 
+                   input_parameter,
+                   x,
+                   i,
+                   U, 
+                   
+                   typenames,  # typename U0, ...
+                   i, 
+                   U, 			# U0, ...
+                   u,          # U0 u0, ...
+                   i, 
+                   input_parameter,
+                   x,
+                   i,
+                   U, 
+                   
+                   
+                   ## const 
+                   typenames,  # typename U0, ...
+                   i,           
+                   u,          # U0 u0, ...
+                   i, 
+                   input_parameter,
+                   x,
+                   i,
+                   U, 
+                   
+                   typenames,  # typename U0, ...
+                   i, 
+                   U, 			# U0, ...
+                   u,          # U0 u0, ...
+                   i, 
+                   input_parameter,
+                   x,
+                   i,
+                   U
+                   )   
 }
 
 file <- sprintf( 
-'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
+'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
 // Module_generated_PointerCppMethod.h: -- generated helper code for Modules
 //                                         see rcpp-scripts repo for generator script
