@@ -89,8 +89,3 @@ inline void signature(std::string& s, const char* name) {
 
 stopifnot(file.exists("inst/include/Rcpp/module/"))
 writeLines(file, "inst/include/Rcpp/module/Module_generated_get_signature.h")
-
-
-
-
-
