@@ -23,7 +23,7 @@ inline void signature(std::string& s, const char* name) {
     s += "(";
     s += get_return_type<U0>();
 %s
-    s += ")"; 
+    s += ")";
 }
 
 ',
@@ -51,7 +51,7 @@ file <- sprintf(
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                                                       
+//
 // You should have received a copy of the GNU General Public License
 // along with Rcpp.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -77,10 +77,12 @@ inline void signature(std::string& s, const char* name) {
     s += name;
     s += "(";
     s += get_return_type<U0>();
-    s += ")"; 
+    s += ")";
 }
 
 %s
+
+}
 
 #endif', paste(sapply(1:65, fun), collapse = "\n") 
 )
