@@ -47,8 +47,8 @@ self& const_method(const char* name_, RESULT_TYPE (*fun)(const Class*, %s),
 file <- sprintf( 
 '// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// Module_generated_Pointer_method.h:  -- generated helper code for Modules
-//                                        see rcpp-scripts repo for generator script
+// Module_generated_Pointer_method.h: -- generated helper code for Modules
+//                                       see rcpp-scripts repo for generator script
 //
 // Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
@@ -87,7 +87,7 @@ self& const_method(const char* name_, RESULT_TYPE (*fun)(const Class*),
 %s
 
 #endif
-', paste( sapply( 1:65, fun), collapse = "\n" ) 
+', paste(sapply(1:65, fun), collapse = "\n") 
 )
 
 stopifnot(file.exists("inst/include/Rcpp/module/"))
