@@ -143,9 +143,10 @@ U
 }
 
 file <- sprintf( 
-'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
+'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// Module_generated_CppMethod.h: Rcpp R/C++ interface class library -- Rcpp modules
+// Module_generated_CppMethod.h: -- generated helper code for Modules
+//                                  see rcpp-scripts repo for generator script
 //
 // Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 //
@@ -167,89 +168,85 @@ file <- sprintf(
 #ifndef Rcpp_Module_generated_CppMethod_h
 #define Rcpp_Module_generated_CppMethod_h
 
-	template <typename Class, typename RESULT_TYPE> class CppMethod0 : public CppMethod<Class> {
-	public:
-		typedef RESULT_TYPE (Class::*Method)(void) ;
-		typedef CppMethod<Class> method_class ;
-		typedef typename Rcpp::traits::remove_const_and_reference< RESULT_TYPE >::type CLEANED_RESULT_TYPE ;
-		
-		CppMethod0( Method m) : method_class(), met(m){} 
-		SEXP operator()( Class* object, SEXP*){
-			return Rcpp::module_wrap<CLEANED_RESULT_TYPE>( (object->*met)( ) ) ;
-		}
-		inline int nargs(){ return 0 ; }
-		inline bool is_void(){ return false ; }
-		inline bool is_const(){ return false ; }
-		inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE>(s, name) ; }
-		
-	private:
-		Method met ;
-	} ;
-	
-	template <typename Class> class CppMethod0<Class,void> : public CppMethod<Class> {
-	public:
-		typedef void (Class::*Method)(void) ;
-		typedef CppMethod<Class> method_class ;
-		CppMethod0( Method m) : method_class(), met(m){} 
-		SEXP operator()( Class* object, SEXP* ){
-			(object->*met)( ) ;
-			return R_NilValue ;
-		}
-		inline int nargs(){ return 0 ; }
-		inline bool is_void(){ return true ; }
-		inline bool is_const(){ return false ; }
-		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type>(s, name) ; }
-		
-	private:
-		Method met ;
-	} ;
-	
-	template <typename Class, typename RESULT_TYPE> class const_CppMethod0 : public CppMethod<Class> {
-	public:
-		typedef RESULT_TYPE (Class::*Method)(void) const ;
-		typedef CppMethod<Class> method_class ;
-		typedef typename Rcpp::traits::remove_const_and_reference< RESULT_TYPE >::type CLEANED_RESULT_TYPE ;
-		
-		const_CppMethod0( Method m) : method_class(), met(m){} 
-		SEXP operator()( Class* object, SEXP* ){
-			return Rcpp::module_wrap<CLEANED_RESULT_TYPE>( (object->*met)( ) ) ;
-		}
-		inline int nargs(){ return 0 ; }
-		inline bool is_void(){ return false ; }
-		inline bool is_const(){ return true ; }
-		inline void signature(std::string& s, const char* name){ Rcpp::signature<RESULT_TYPE>(s, name) ; }
-		
-	private:
-		Method met ;
-	} ;
-	
-	template <typename Class> class const_CppMethod0<Class,void> : public CppMethod<Class> {
-	public:
-		typedef void (Class::*Method)(void) const ;
-		typedef CppMethod<Class> method_class ;
-		const_CppMethod0( Method m) : method_class(), met(m) {} 
-		SEXP operator()( Class* object, SEXP* ){
-			(object->*met)( ) ;
-			return R_NilValue ;
-		}
-		inline int nargs(){ return 0 ; }
-		inline bool is_void(){ return true ; }
-		inline bool is_const(){ return true ; }
-		inline void signature(std::string& s, const char* name){ Rcpp::signature<void_type>(s, name) ; }
-		
-	private:
-		Method met ;
-	} ;
+template <typename Class, typename RESULT_TYPE> class CppMethod0 : public CppMethod<Class> {
+public:
+    typedef RESULT_TYPE (Class::*Method)(void);
+    typedef CppMethod<Class> method_class;
+    typedef typename Rcpp::traits::remove_const_and_reference<RESULT_TYPE>::type CLEANED_RESULT_TYPE;
+    
+    CppMethod0( Method m) : method_class(), met(m) {} 
+    SEXP operator()( Class* object, SEXP*) {
+        return Rcpp::module_wrap<CLEANED_RESULT_TYPE>((object->*met)());
+    }
+    inline int nargs() { return 0; }
+    inline bool is_void() { return false; }
+    inline bool is_const() { return false; }
+    inline void signature(std::string& s, const char* name) { Rcpp::signature<RESULT_TYPE>(s, name); }
+
+private:
+    Method met;
+};
+
+template <typename Class> class CppMethod0<Class,void> : public CppMethod<Class> {
+public:
+    typedef void (Class::*Method)(void);
+    typedef CppMethod<Class> method_class;
+    CppMethod0( Method m) : method_class(), met(m) {} 
+    SEXP operator()( Class* object, SEXP* ) {
+        (object->*met)();
+        return R_NilValue;
+    }
+    inline int nargs() { return 0; }
+    inline bool is_void() { return true; }
+    inline bool is_const() { return false; }
+    inline void signature(std::string& s, const char* name) { Rcpp::signature<void_type>(s, name); }
+
+private:
+    Method met;
+};
+
+template <typename Class, typename RESULT_TYPE> class const_CppMethod0 : public CppMethod<Class> {
+public:
+    typedef RESULT_TYPE (Class::*Method)(void) const;
+    typedef CppMethod<Class> method_class;
+    typedef typename Rcpp::traits::remove_const_and_reference<RESULT_TYPE>::type CLEANED_RESULT_TYPE;
+    
+    const_CppMethod0( Method m) : method_class(), met(m) {} 
+    SEXP operator()(Class* object, SEXP*) {
+        return Rcpp::module_wrap<CLEANED_RESULT_TYPE>((object->*met)());
+    }
+    inline int nargs() { return 0; }
+    inline bool is_void() { return false; }
+    inline bool is_const() { return true; }
+    inline void signature(std::string& s, const char* name) { Rcpp::signature<RESULT_TYPE>(s, name); }
+
+private:
+    Method met;
+};
+
+template <typename Class> class const_CppMethod0<Class,void> : public CppMethod<Class> {
+public:
+    typedef void (Class::*Method)(void) const;
+    typedef CppMethod<Class> method_class;
+    const_CppMethod0( Method m) : method_class(), met(m) {} 
+    SEXP operator()(Class* object, SEXP*) {
+        (object->*met)( );
+        return R_NilValue;
+    }
+    inline int nargs() { return 0; }
+    inline bool is_void() { return true; }
+    inline bool is_const() { return true; }
+    inline void signature(std::string& s, const char* name) { Rcpp::signature<void_type>(s, name); }
+
+private:
+    Method met;
+};
 
 %s
 
 #endif
-', paste( sapply( 1:65 , fun), collapse = "\n" ) 
+', paste(sapply(1:65 , fun), collapse = "\n") 
 )
 
-writeLines( file, "Rcpp/inst/include/Rcpp/module/Module_generated_CppMethod.h" )
-
-
-
-
-
+stopifnot(file.exists("inst/include/Rcpp/module/"))
+writeLines(file, "inst/include/Rcpp/module/Module_generated_CppMethod.h" )
