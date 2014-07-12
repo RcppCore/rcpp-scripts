@@ -145,7 +145,8 @@ private:
 file <- sprintf( 
 '// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 8 -*-
 //
-// Module_generated_CppMethod.h: Rcpp R/C++ interface class library -- Rcpp modules
+// Module_generated_PointerCppMethod.h: -- generated helper code for Modules
+//                                         see rcpp-scripts repo for generator script
 //
 // Copyright (C) 2010 - 2014  Doug Bates, Dirk Eddelbuettel and Romain Francois
 //
