@@ -1,41 +1,42 @@
+#!/usr/bin/Rscript
+#
+# Generator for inst/include/Rcpp/module/Module_generated_get_signature.h
+#
+# Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
 
+fun <- function(i) {
 
-fun <- function( i ){
-
-	index <- 0:i
-	collapse <- function(x) paste( x, collapse = ", " )
+    index <- 0:i
+    collapse <- function(x) paste(x, collapse = ", ")
 	
-	typenames <- collapse( sprintf( "typename U%d", index ) )
-	demangles <- paste( 
-	    sprintf( '    s += ", " ; s+= get_return_type<U%d>();', 1:i), 
-	    collapse = "\n" )
+    typenames <- collapse(sprintf("typename U%d", index))
+    demangles <- paste(sprintf('    s += ", "; s+= get_return_type<U%d>();', 1:i), collapse = "\n")
     
-txt <- sprintf( '
+    txt <- sprintf('
 
 template <typename RESULT_TYPE,%s>
-inline void signature(std::string& s, const char* name){
-    s.clear() ;
-    s += get_return_type<RESULT_TYPE>() ;
-    s += " " ;
-    s += name ;
-    s += "(" ;
-    s += get_return_type<U0>() ;
+inline void signature(std::string& s, const char* name) {
+    s.clear();
+    s += get_return_type<RESULT_TYPE>();
+    s += " ";
+    s += name;
+    s += "(";
+    s += get_return_type<U0>();
 %s
-    s += ")" ; 
+    s += ")"; 
 }
 
-
 ',
-typenames,   # typename U0, ...
-demangles
-)   
-txt
+                   typenames,   # typename U0, ...
+                   demangles)   
+    txt
 }
 
 file <- sprintf( 
-'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 4 -*-
+'// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// Module_generated_get_signature.h: Rcpp R/C++ interface class library --
+// Module_generated_get_signature.h: -- generated helper code for Modules
+//                                      see rcpp-scripts repo for generator script
 //
 // Copyright (C) 2010 - 2014  Doug Bates, Dirk Eddelbuettel and Romain Francois
 //
@@ -57,33 +58,35 @@ file <- sprintf(
 #ifndef Rcpp_Module_generated_get_signature_h
 #define Rcpp_Module_generated_get_signature_h
 
+namespace Rcpp {
+
 template <typename RESULT_TYPE>
-inline void signature(std::string& s, const char* name){
-    s.clear() ;
-    s += get_return_type<RESULT_TYPE>() ;
-    s += " " ;
-    s += name ;
-    s += "()" ;
+inline void signature(std::string& s, const char* name) {
+    s.clear();
+    s += get_return_type<RESULT_TYPE>();
+    s += " ";
+    s += name;
+    s += "()";
 }
 
-
 template <typename RESULT_TYPE,typename U0>
-inline void signature(std::string& s, const char* name){
-    s.clear() ;
-    s += get_return_type<RESULT_TYPE>() ;
-    s += " " ;
-    s += name ;
-    s += "(" ;
-    s += get_return_type<U0>() ;
-    s += ")" ; 
+inline void signature(std::string& s, const char* name) {
+    s.clear();
+    s += get_return_type<RESULT_TYPE>();
+    s += " ";
+    s += name;
+    s += "(";
+    s += get_return_type<U0>();
+    s += ")"; 
 }
 
 %s
 
-#endif', paste( sapply( 1:65, fun), collapse = "\n" ) 
+#endif', paste(sapply(1:65, fun), collapse = "\n") 
 )
 
-writeLines( file, "Rcpp/inst/include/Rcpp/module/Module_generated_get_signature.h" )
+stopifnot(file.exists("inst/include/Rcpp/module/"))
+writeLines(file, "inst/include/Rcpp/module/Module_generated_get_signature.h")
 
 
 
