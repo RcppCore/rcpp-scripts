@@ -177,6 +177,8 @@ file <- sprintf(
 #ifndef Rcpp_Module_generated_CppFunction_h
 #define Rcpp_Module_generated_CppFunction_h
 
+namespace Rcpp {
+
 template <typename RESULT_TYPE>
 class CppFunction0 : public CppFunction {
     public:
@@ -233,7 +235,7 @@ class CppFunction_WithFormals0 : public CppFunction {
 
     private:
         RESULT_TYPE (*ptr_fun)(void);
-} ;
+};
 
 
 template <>
@@ -254,9 +256,11 @@ class CppFunction_WithFormals0<void> : public CppFunction {
 
     private:
         void (*ptr_fun)(void) ;
-} ;
+};
 
 %s
+
+}
 
 #endif
 ', paste(sapply( 1:65, fun), collapse = "\n")
