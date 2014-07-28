@@ -9,7 +9,7 @@ fun <- function(i) {
     txt <- sprintf( '
 
     template <typename RESULT_TYPE%s>
-    InternalFunction_Impl(RESULT_TYPE (*fun)(%s)) : RObject() {
+    InternalFunction_Impl(RESULT_TYPE (*fun)(%s)) {
         set(XPtr<CppFunction%d<RESULT_TYPE%s> >(new CppFunction%d<RESULT_TYPE%s>(fun), false));
     }
 ', 
@@ -56,6 +56,3 @@ file <- sprintf(
 
 stopifnot(file.exists("inst/include/Rcpp/generated/"))
 writeLines(file, "inst/include/Rcpp/generated/InternalFunction__ctors.h")
-
-
-
