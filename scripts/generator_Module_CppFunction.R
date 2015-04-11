@@ -2,7 +2,7 @@
 #
 # Generator for inst/include/Rcpp/module/Module_generated_CppFunction.h
 #
-# Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
+# Copyright (C) 2010 - 2015  Dirk Eddelbuettel and Romain Francois
 
 fun <- function(i) {
 
@@ -16,10 +16,8 @@ template <typename RESULT_TYPE, %s> class CppFunction%d : public CppFunction {
         CppFunction%d(RESULT_TYPE (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun) {}
 
         SEXP operator()(SEXP* args) {
-            BEGIN_RCPP
             %s
             return Rcpp::module_wrap<RESULT_TYPE>(ptr_fun(%s));
-            END_RCPP
         }
 
         inline int nargs() { return %d; }
@@ -36,10 +34,9 @@ class CppFunction%d<void,%s> : public CppFunction {
         CppFunction%d(void (*fun)(%s) , const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun) {}
 
         SEXP operator()(SEXP* args) {
-            BEGIN_RCPP
             %s
             ptr_fun(%s);
-            END_RCPP
+            return R_NilValue;
         }
 
         inline int nargs() { return %d; }
@@ -61,10 +58,8 @@ class CppFunction_WithFormals%d : public CppFunction {
             CppFunction(docstring), formals(formals_), ptr_fun(fun) {}
 
         SEXP operator()(SEXP* args) {
-            BEGIN_RCPP
             %s
             return Rcpp::module_wrap<RESULT_TYPE>(ptr_fun(%s));
-            END_RCPP
         }
 
         inline int nargs() { return %d; }
@@ -84,10 +79,9 @@ class CppFunction_WithFormals%d<void,%s> : public CppFunction {
             CppFunction(docstring), formals(formals_), ptr_fun(fun) {}
 
         SEXP operator()(SEXP* args) {
-            BEGIN_RCPP
             %s
             ptr_fun(%s);
-            END_RCPP
+            return R_NilValue;
         }
 
         inline int nargs() { return %d; }
@@ -157,7 +151,7 @@ file <- sprintf(
 // Module_generated_CppFunction.h: -- generated helper code for Modules
 //                                    see rcpp-scripts repo for generator script
 //
-// Copyright (C) 2010 - 2014  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2015  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp.
 //
@@ -184,9 +178,7 @@ class CppFunction0 : public CppFunction {
     public:
         CppFunction0(RESULT_TYPE (*fun)(void), const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun) {}
         SEXP operator()(SEXP*) {
-            BEGIN_RCPP
             return Rcpp::module_wrap<RESULT_TYPE>(ptr_fun());
-            END_RCPP
         }
 
         inline int nargs() { return 0; }
@@ -204,9 +196,8 @@ class CppFunction0<void> : public CppFunction {
         CppFunction0(void (*fun)(void), const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun) {};
 
         SEXP operator()(SEXP*) {
-            BEGIN_RCPP
             ptr_fun();
-            END_RCPP
+            return R_NilValue;
         }
 
         inline int nargs() { return 0; }
@@ -224,9 +215,7 @@ class CppFunction_WithFormals0 : public CppFunction {
     public:
         CppFunction_WithFormals0(RESULT_TYPE (*fun)(void), Rcpp::List,  const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun) {}
         SEXP operator()(SEXP*) {
-            BEGIN_RCPP
             return Rcpp::module_wrap<RESULT_TYPE>(ptr_fun());
-            END_RCPP
         }
 
         inline int nargs() { return 0; }
@@ -244,9 +233,8 @@ class CppFunction_WithFormals0<void> : public CppFunction {
         CppFunction_WithFormals0(void (*fun)(void), Rcpp::List, const char* docstring = 0) : CppFunction(docstring), ptr_fun(fun) {} ;
 
         SEXP operator()(SEXP*) {
-            BEGIN_RCPP
             ptr_fun() ;
-            END_RCPP
+            return R_NilValue;
         }
 
         inline int nargs() { return 0; }
